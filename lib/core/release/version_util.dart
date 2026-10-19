@@ -337,6 +337,33 @@ class VersionUtil {
     };
   }
 
+  static String getRecommendedApkUrl() {
+    if (latestAssets.isNotEmpty) {
+      for (final asset in latestAssets) {
+        final name = asset['name']?.toString().toLowerCase() ?? '';
+        final url = asset['url']?.toString() ?? asset['browser_download_url']?.toString() ?? '';
+        if (url.isNotEmpty && (name.contains('arm64') || name.contains('arm64-v8a'))) {
+          return url;
+        }
+      }
+      for (final asset in latestAssets) {
+        final url = asset['url']?.toString() ?? asset['browser_download_url']?.toString() ?? '';
+        if (url.toLowerCase().endsWith('.apk')) {
+          return url;
+        }
+      }
+    }
+    if (downloadUrl.isNotEmpty && downloadUrl.toLowerCase().endsWith('.apk')) {
+      return downloadUrl;
+    }
+    final cleanVer = _normalizeVersion(latestVersion.isNotEmpty ? latestVersion : '3.4.1');
+    final tag = 'v$cleanVer';
+    final repoOwner = updateOwner;
+    final repoName = updateRepository;
+    final rawBase = 'https://github.com/$repoOwner/$repoName/releases/download/$tag';
+    return 'https://gh.lz1861.ccwu.cc/$rawBase/PureLive-$cleanVer-android-arm64-v8a.apk';
+  }
+
   void _resetAfterFailedCheck() {
     latestVersion = version;
 

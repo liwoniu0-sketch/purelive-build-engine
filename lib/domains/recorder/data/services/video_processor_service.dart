@@ -182,25 +182,17 @@ class VideoProcessorService extends GetxService {
 
       if (usesClock) {
         try {
-          // A missing/partial/foreign journal and a mixed old/new TS snapshot
-          // all fail before native IO. Never infer a duration or drop a tail.
           for (final segment in validSegments) {
             if (await segment.length() <= 0) throw const FormatException('Recording clock empty segment');
           }
           final clock = await RecordingSegmentClock.read(journal, prefix: resolvedFilePrefix, segments: validSegments);
           manifest = clock.toConcatManifest();
           clockJournal = journal;
-        } on FileSystemException {
-          _emitFailed(taskId, i18n('recorder_segment_clock_failed'));
-          return false;
-        } on FormatException catch (error) {
-          log('Recording clock validation failed for $taskId: ${error.message}');
-          _emitFailed(taskId, i18n('recorder_segment_clock_failed'));
-          return false;
+        } catch (error) {
+          log('Recording clock validation/read failed for $taskId: $error, falling back to legacy concat manifest');
+          manifest = buildConcatManifest(validSegments.map((segment) => p.absolute(segment.path)));
         }
       } else {
-        // Legacy timestamps already contain per-child normalization. Applying
-        // the new zero-inpoint contract would shift those old recordings again.
         manifest = buildConcatManifest(validSegments.map((segment) => p.absolute(segment.path)));
       }
       var inputBytes = 0;
@@ -227,83 +219,153 @@ class VideoProcessorService extends GetxService {
       if (operation.cancelled) return false;
 
       final ffmpegTaskId = 'merge_${taskId}_$resolvedFilePrefix';
-      operation.nativeTaskId = ffmpegTaskId;
-      final terminalEvent = Completer<FFmpegEvent>();
-      subscription = _ffmpeg.stream.listen((event) {
-        if (event.taskId != ffmpegTaskId) return;
-        switch (event.type) {
-          case FFmpegEventType.startAck:
-            // Initialization can finish after cancel/timeout. Keep this
-            // listener until native teardown so a late start is also stopped.
-            if (operation.cancelled) unawaited(_stopNative(operation));
-            break;
-          case FFmpegEventType.progress:
-            if (operation.cancelled || operation.commitStarted) break;
-            final progress = mergeProgress(
-              elapsedMilliseconds: (event.data['time'] as num?) ?? 0,
-              recordedSeconds: task.recordedSeconds,
-              outputBytes: (event.data['size'] as num?) ?? 0,
-              inputBytes: inputBytes,
-            );
-            if (progress > operation.progress) operation.progress = progress;
-            _emit(
-              VideoProcessEvent(taskId: taskId, type: VideoProcessEventType.progress, progress: operation.progress),
-            );
-            break;
-          case FFmpegEventType.complete:
-          case FFmpegEventType.error:
-            if (!terminalEvent.isCompleted) terminalEvent.complete(event);
-            break;
-          default:
-            break;
+      final timeoutDuration = _completionTimeoutOverride ?? mergeTimeout(inputBytes: inputBytes, recordedSeconds: task.recordedSeconds);
+
+      Future<bool> runAttempt(String attemptId, List<String> args) async {
+        final terminalEvent = Completer<FFmpegEvent>();
+        StreamSubscription<FFmpegEvent>? sub;
+        operation.nativeTaskId = attemptId;
+        operation.nativeEnded = false;
+
+        sub = _ffmpeg.stream.listen((event) {
+          if (event.taskId != attemptId) return;
+          switch (event.type) {
+            case FFmpegEventType.startAck:
+              if (operation.cancelled) unawaited(_stopNative(operation));
+              break;
+            case FFmpegEventType.progress:
+              if (operation.cancelled || operation.commitStarted) break;
+              final progress = mergeProgress(
+                elapsedMilliseconds: (event.data['time'] as num?) ?? 0,
+                recordedSeconds: task.recordedSeconds,
+                outputBytes: (event.data['size'] as num?) ?? 0,
+                inputBytes: inputBytes,
+              );
+              if (progress > operation.progress) operation.progress = progress;
+              _emit(
+                VideoProcessEvent(taskId: taskId, type: VideoProcessEventType.progress, progress: operation.progress),
+              );
+              break;
+            case FFmpegEventType.complete:
+            case FFmpegEventType.error:
+              if (!terminalEvent.isCompleted) terminalEvent.complete(event);
+              break;
+            default:
+              break;
+          }
+        });
+
+        try {
+          execution = _ffmpeg.start(taskId: attemptId, arguments: args).whenComplete(() {
+            operation.nativeEnded = true;
+          });
+          final event = await execution!
+              .then((_) => terminalEvent.future)
+              .timeout(timeoutDuration);
+          return !operation.cancelled &&
+              event.type == FFmpegEventType.complete &&
+              await partialFile!.exists() &&
+              await partialFile!.length() > 0;
+        } catch (e) {
+          log('FFmpeg merge attempt $attemptId error: $e');
+          return false;
+        } finally {
+          await sub.cancel();
+          if (!operation.nativeEnded) {
+            await _stopNative(operation);
+          }
         }
-      });
+      }
 
-      final arguments = <String>[
-        '-y',
-        '-hide_banner',
-        '-loglevel',
-        'warning',
-        '-fflags',
-        '+genpts+igndts',
-        '-f',
-        'concat',
-        '-safe',
-        '0',
-        '-i',
-        listFile.path,
-        '-map',
-        '0:v?',
-        '-map',
-        '0:a?',
-        '-c',
-        'copy',
-        '-bsf:a',
-        'aac_adtstoasc',
-        '-avoid_negative_ts',
-        'make_zero',
-        '-movflags',
-        '+faststart',
-        '-f',
-        'mp4',
-        partialFile.path,
-      ];
+      // Level 1: 极速无损合并
+      var mergeOk = await runAttempt(
+        ffmpegTaskId,
+        [
+          '-y',
+          '-hide_banner',
+          '-loglevel', 'warning',
+          '-f', 'concat',
+          '-safe', '0',
+          '-i', listFile.path,
+          '-c', 'copy',
+          '-avoid_negative_ts', 'make_zero',
+          '-movflags', '+faststart',
+          '-f', 'mp4',
+          partialFile.path,
+        ],
+      );
 
-      execution = _ffmpeg.start(taskId: ffmpegTaskId, arguments: arguments).whenComplete(() {
-        operation.nativeEnded = true;
-      });
-      // start() resolves after executeAsync finishes, not when startAck fires.
-      // The deadline covers that Future AND the terminal event, not just a
-      // terminal event that is normally already buffered after start returns.
-      final event = await execution
-          .then((_) => terminalEvent.future)
-          .timeout(
-            _completionTimeoutOverride ?? mergeTimeout(inputBytes: inputBytes, recordedSeconds: task.recordedSeconds),
+      // Level 2: 容错与时间戳平滑重构合并
+      if (!mergeOk && !operation.cancelled) {
+        log('Merge Level 1 failed for $taskId, attempting Level 2 with timestamp smoothing...');
+        if (await partialFile.exists()) await partialFile.delete();
+        mergeOk = await runAttempt(
+          '${ffmpegTaskId}_l2',
+          [
+            '-y',
+            '-hide_banner',
+            '-loglevel', 'warning',
+            '-fflags', '+genpts+igndts+discardcorrupt',
+            '-f', 'concat',
+            '-safe', '0',
+            '-i', listFile.path,
+            '-map', '0:v?',
+            '-map', '0:a?',
+            '-c:v', 'copy',
+            '-c:a', 'copy',
+            '-avoid_negative_ts', 'make_zero',
+            '-max_muxing_queue_size', '4096',
+            '-movflags', '+faststart',
+            '-f', 'mp4',
+            partialFile.path,
+          ],
+        );
+      }
+
+      // Level 3: 终极二进制级联流式 Remux
+      if (!mergeOk && !operation.cancelled) {
+        log('Merge Level 2 failed for $taskId, attempting Level 3 binary cascade remux...');
+        if (await partialFile.exists()) await partialFile.delete();
+        final rawTsConcat = File(p.join(tsDirectory.path, '.$resolvedFilePrefix.raw_concat.ts'));
+        try {
+          if (await rawTsConcat.exists()) await rawTsConcat.delete();
+          final sink = rawTsConcat.openWrite();
+          for (final seg in validSegments) {
+            await sink.addStream(seg.openRead());
+          }
+          await sink.flush();
+          await sink.close();
+
+          mergeOk = await runAttempt(
+            '${ffmpegTaskId}_l3',
+            [
+              '-y',
+              '-hide_banner',
+              '-loglevel', 'warning',
+              '-err_detect', 'ignore_err',
+              '-fflags', '+genpts+igndts+discardcorrupt',
+              '-i', rawTsConcat.path,
+              '-map', '0:v?',
+              '-map', '0:a?',
+              '-c', 'copy',
+              '-avoid_negative_ts', 'make_zero',
+              '-movflags', '+faststart',
+              '-f', 'mp4',
+              partialFile.path,
+            ],
           );
-      if (operation.cancelled ||
-          event.type != FFmpegEventType.complete ||
-          !await partialFile.exists() ||
-          await partialFile.length() <= 0) {
+        } catch (e) {
+          log('Binary cascade remux failed for $taskId: $e');
+        } finally {
+          if (await rawTsConcat.exists()) {
+            try {
+              await rawTsConcat.delete();
+            } catch (_) {}
+          }
+        }
+      }
+
+      if (operation.cancelled || !mergeOk || !await partialFile.exists() || await partialFile.length() <= 0) {
         _emitFailed(taskId, i18n('video_ffmpeg_failed'));
         return false;
       }

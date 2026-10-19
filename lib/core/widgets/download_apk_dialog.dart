@@ -175,9 +175,16 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
   String _statusText = '';
   String? _openFailure;
+  String _currentSourceLabel = '';
+  String _downloadSpeed = '';
+  CancelToken? _currentSourceCancelToken;
 
   File? _partialFile;
   File? _completedFile;
+
+  void _manualSwitchSource() {
+    _currentSourceCancelToken?.cancel('manual_switch');
+  }
 
   @override
   void initState() {
@@ -214,7 +221,6 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
       _partialFile = partialFile;
 
       await _recoverInterruptedCommit(completedFile);
-      await _deleteIfPresent(partialFile);
 
       final transfer = widget.transfer ?? _defaultTransfer;
 
@@ -259,6 +265,33 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
     }
   }
 
+  Future<Map<String, String>?> _probeFastestSource(List<Map<String, String>> sources) async {
+    final completer = Completer<Map<String, String>?>();
+    int pending = sources.length;
+    for (final s in sources) {
+      _dio.head<void>(
+        s['url']!,
+        options: Options(
+          sendTimeout: const Duration(milliseconds: 1500),
+          receiveTimeout: const Duration(milliseconds: 1500),
+          headers: {'User-Agent': 'Mozilla/5.0 PureLivePro'},
+        ),
+      ).then((resp) {
+        if (!completer.isCompleted && (resp.statusCode == 200 || resp.statusCode == 206 || resp.statusCode == 302)) {
+          completer.complete(s);
+        }
+      }).catchError((_) {
+        // ignore probe error
+      }).whenComplete(() {
+        pending--;
+        if (pending <= 0 && !completer.isCompleted) {
+          completer.complete(null);
+        }
+      });
+    }
+    return completer.future.timeout(const Duration(milliseconds: 1600), onTimeout: () => null);
+  }
+
   Future<void> _defaultTransfer({
     required String url,
     required String destinationPath,
@@ -266,53 +299,174 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
     required DownloadProgressCallback onProgress,
   }) async {
     final bool useOriginOnly = SettingsService.to.app.useGitHubOriginForUpdates.v;
-    final List<String> candidateUrls = [];
+    final String pureGithub = GitHubMirror.extractPureGithubUrl(url);
+
+    final List<Map<String, String>> candidateSources = [];
     if (useOriginOnly) {
-      candidateUrls.add(url);
+      candidateSources.add({'label': 'GitHub 官方源', 'url': pureGithub.isNotEmpty ? pureGithub : url});
     } else {
       final cfUrl = GitHubMirror.speedUpUrl(url);
-      candidateUrls.add(cfUrl);
-      final pureGithub = GitHubMirror.extractPureGithubUrl(url);
+      candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': cfUrl});
       if (pureGithub.contains('github.com/')) {
-        candidateUrls.add('https://ghproxy.net/$pureGithub');
-        candidateUrls.add('https://cdn.gh-proxy.org/$pureGithub');
-        candidateUrls.add(pureGithub);
-      } else if (!candidateUrls.contains(url)) {
-        candidateUrls.add(url);
+        candidateSources.add({'label': '🚀 国内高速源 A', 'url': 'https://gh-proxy.com/$pureGithub'});
+        candidateSources.add({'label': '🚀 国内高速源 B', 'url': 'https://cdn.gh-proxy.org/$pureGithub'});
+        candidateSources.add({'label': '🚀 腾讯 Edge 节点', 'url': 'https://edgeone.gh-proxy.org/$pureGithub'});
+        candidateSources.add({'label': '🚀 国内备用源 C', 'url': 'https://ghproxy.net/$pureGithub'});
+        candidateSources.add({'label': '🚀 国内备用源 D', 'url': 'https://github.boki.moe/$pureGithub'});
+        candidateSources.add({'label': '🌐 GitHub 官方源', 'url': pureGithub});
+      } else {
+        candidateSources.add({'label': '默认源', 'url': url});
       }
     }
 
-    dynamic lastError;
-    for (int i = 0; i < candidateUrls.length; i++) {
-      if (cancelToken.isCancelled) return;
-      final targetUrl = candidateUrls[i];
+    if (candidateSources.length > 1) {
+      if (mounted) {
+        setState(() {
+          _currentSourceLabel = '正在测速优选极速节点...';
+        });
+      }
       try {
-        log('Attempting download from candidate ${i + 1}/${candidateUrls.length}: $targetUrl', name: 'DownloadApkDialog');
-        await _dio.download(
+        final fastest = await _probeFastestSource(candidateSources);
+        if (fastest != null) {
+          candidateSources.remove(fastest);
+          candidateSources.insert(0, fastest);
+        }
+      } catch (_) {}
+    }
+
+    dynamic lastError;
+    int sourceIndex = 0;
+
+    while (sourceIndex < candidateSources.length) {
+      if (cancelToken.isCancelled) return;
+      final source = candidateSources[sourceIndex];
+      final targetUrl = source['url']!;
+      final label = source['label']!;
+
+      if (mounted) {
+        setState(() {
+          _currentSourceLabel = label;
+        });
+      }
+
+      final sourceCancel = CancelToken();
+      _currentSourceCancelToken = sourceCancel;
+
+      void onGlobalCancel() {
+        if (!sourceCancel.isCancelled) sourceCancel.cancel('global_cancelled');
+      }
+      cancelToken.whenCancel.then((_) => onGlobalCancel());
+
+      try {
+        log('Attempting download from candidate ${sourceIndex + 1}/${candidateSources.length} ($label): $targetUrl', name: 'DownloadApkDialog');
+
+        final targetFile = File(destinationPath);
+        int existingBytes = 0;
+        if (await targetFile.exists()) {
+          existingBytes = await targetFile.length();
+        }
+
+        final response = await _dio.get<ResponseBody>(
           targetUrl,
-          destinationPath,
           options: Options(
-            headers: const {'Cache-Control': 'no-cache', 'Pragma': 'no-cache', 'Expires': '0'},
+            responseType: ResponseType.stream,
+            headers: {
+              if (existingBytes > 0) 'Range': 'bytes=$existingBytes-',
+              'User-Agent': 'Mozilla/5.0 (Linux; Android 14) PureLivePro',
+            },
             receiveTimeout: const Duration(minutes: 15),
-            followRedirects: true,
-            maxRedirects: 5,
           ),
-          onReceiveProgress: onProgress,
-          cancelToken: cancelToken,
+          cancelToken: sourceCancel,
         );
-        return;
+
+        final statusCode = response.statusCode ?? 200;
+        final bool isRange = statusCode == 206;
+        final int contentLength = int.tryParse(response.headers.value('content-length') ?? '') ?? 0;
+        final int totalBytes = isRange ? (existingBytes + contentLength) : contentLength;
+
+        final IOSink sink = targetFile.openWrite(
+          mode: (isRange && existingBytes > 0) ? FileMode.append : FileMode.write,
+        );
+
+        int receivedBytes = (isRange && existingBytes > 0) ? existingBytes : 0;
+        int lastSecondBytes = receivedBytes;
+        DateTime lastSpeedTime = DateTime.now();
+        DateTime lastDataReceivedTime = DateTime.now();
+        DateTime downloadStartTime = DateTime.now();
+
+        try {
+          await for (final chunk in response.data!.stream) {
+            if (cancelToken.isCancelled || sourceCancel.isCancelled) {
+              break;
+            }
+            sink.add(chunk);
+            receivedBytes += chunk.length;
+            lastDataReceivedTime = DateTime.now();
+
+            final now = DateTime.now();
+            final elapsedMs = now.difference(lastSpeedTime).inMilliseconds;
+            if (elapsedMs >= 800) {
+              final diffBytes = receivedBytes - lastSecondBytes;
+              final speedBytesPerSec = (diffBytes / (elapsedMs / 1000.0));
+              final speedMb = speedBytesPerSec / (1024 * 1024);
+              final speedKb = speedBytesPerSec / 1024;
+              final speedStr = speedMb >= 1.0
+                  ? '${speedMb.toStringAsFixed(1)} MB/s'
+                  : '${speedKb.toStringAsFixed(0)} KB/s';
+
+              _downloadSpeed = speedStr;
+              lastSecondBytes = receivedBytes;
+              lastSpeedTime = now;
+
+              onProgress(receivedBytes, totalBytes);
+
+              final totalDurationSec = now.difference(downloadStartTime).inSeconds;
+              if (totalDurationSec >= 6 && speedBytesPerSec < 300 * 1024 && totalBytes > 10 * 1024 * 1024) {
+                if (receivedBytes < totalBytes * 0.8 && sourceIndex + 1 < candidateSources.length) {
+                  log('Download speed too slow ($speedStr), auto switching to next candidate...', name: 'DownloadApkDialog');
+                  sourceCancel.cancel('auto_switch_low_speed');
+                  break;
+                }
+              }
+            } else {
+              onProgress(receivedBytes, totalBytes);
+            }
+
+            if (now.difference(lastDataReceivedTime).inMilliseconds > 4500) {
+              if (sourceIndex + 1 < candidateSources.length) {
+                log('Download stalled for 4.5s, auto switching to next candidate...', name: 'DownloadApkDialog');
+                sourceCancel.cancel('auto_switch_stalled');
+                break;
+              }
+            }
+          }
+        } finally {
+          await sink.flush();
+          await sink.close();
+        }
+
+        if (cancelToken.isCancelled) return;
+
+        if (sourceCancel.isCancelled) {
+          sourceIndex++;
+          continue;
+        }
+
+        if (totalBytes > 0 && receivedBytes >= totalBytes) {
+          log('Download succeeded via $label ($receivedBytes bytes)', name: 'DownloadApkDialog');
+          return;
+        } else if (totalBytes <= 0 && receivedBytes > 10 * 1024 * 1024) {
+          log('Download completed with unknown total via $label ($receivedBytes bytes)', name: 'DownloadApkDialog');
+          return;
+        }
       } catch (e) {
         lastError = e;
         if (cancelToken.isCancelled) return;
-        log('Candidate $targetUrl failed with $e, checking next candidate...', name: 'DownloadApkDialog');
-        final partial = File(destinationPath);
-        if (await partial.exists()) {
-          try {
-            await partial.delete();
-          } catch (_) {}
-        }
+        log('Candidate $label failed with $e, switching to next...', name: 'DownloadApkDialog');
       }
+      sourceIndex++;
     }
+
     if (lastError != null) {
       throw lastError;
     }
@@ -320,6 +474,8 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
   void _updateProgress(int received, int total) {
     if (!mounted) return;
+
+    final speedText = _downloadSpeed.isNotEmpty ? '⚡ $_downloadSpeed · ' : '';
 
     if (total > 0) {
       final progress = (received / total * 100).round().clamp(0, 100);
@@ -332,7 +488,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         _progress = progress;
         _hasKnownTotal = true;
         _statusText =
-            '${receivedMb.toStringAsFixed(1)} MB / '
+            '$speedText${receivedMb.toStringAsFixed(1)} MB / '
             '${totalMb.toStringAsFixed(1)} MB';
       });
 
@@ -343,7 +499,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
     setState(() {
       _hasKnownTotal = false;
-      _statusText = i18n('downloaded_mb', args: {'mb': '$mb'});
+      _statusText = '$speedText${i18n('downloaded_mb', args: {'mb': '$mb'})}';
     });
   }
 
@@ -559,6 +715,17 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
             fontWeight: FontWeight.w500,
           ),
         ),
+        if (_currentSourceLabel.isNotEmpty && _isDownloading) ...[
+          const SizedBox(height: 2),
+          Text(
+            _currentSourceLabel,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.primary.withValues(alpha: 0.85),
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ],
     );
 
@@ -668,13 +835,21 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
   Widget _buildActions(bool compact) {
     if (_isDownloading) {
-      return Align(
-        alignment: Alignment.centerRight,
-        child: TextButton(
-          key: const ValueKey('download-cancel'),
-          onPressed: _cancelDownload,
-          child: Text(i18n('cancel')),
-        ),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton.icon(
+            key: const ValueKey('download-switch-source'),
+            onPressed: _manualSwitchSource,
+            icon: const Icon(Icons.bolt_rounded, size: 16),
+            label: Text('⚡ 换极速通道', style: AppTextStyles.t12),
+          ),
+          TextButton(
+            key: const ValueKey('download-cancel'),
+            onPressed: _cancelDownload,
+            child: Text(i18n('cancel')),
+          ),
+        ],
       );
     }
 

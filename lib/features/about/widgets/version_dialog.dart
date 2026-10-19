@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:pure_live/core/index.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:markdown_widget/config/configs.dart';
 import 'package:markdown_widget/widget/markdown_block.dart';
+import 'package:pure_live/features/version/app_update_flow.dart';
 
 class NoNewVersionDialog extends StatelessWidget {
   const NoNewVersionDialog({super.key});
@@ -99,7 +101,12 @@ class NewVersionDialog extends StatelessWidget {
             if (callback != null) {
               callback();
             } else {
-              Get.toNamed(RoutePath.kVersionPage);
+              if (Platform.isAndroid) {
+                final targetUrl = VersionUtil.getRecommendedApkUrl();
+                downloadAndInstallApk(targetUrl);
+              } else {
+                Get.toNamed(RoutePath.kVersionPage);
+              }
             }
           },
           child: Text(i18n("update")),
