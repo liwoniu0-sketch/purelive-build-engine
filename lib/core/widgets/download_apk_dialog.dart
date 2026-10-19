@@ -314,17 +314,18 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
       candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': GitHubMirror.speedUpUrl(url)});
       if (pureGithub.contains('github.com/')) {
         candidateSources.add({'label': '🚀 国内高速源 A', 'url': 'https://gh-proxy.com/$pureGithub'});
-        candidateSources.add({'label': '🚀 国内高速源 B', 'url': 'https://cdn.gh-proxy.org/$pureGithub'});
+        candidateSources.add({'label': '🚀 腾讯 Edge 节点', 'url': 'https://edgeone.gh-proxy.org/$pureGithub'});
       }
     } else {
       final cfUrl = GitHubMirror.speedUpUrl(url);
-      candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': cfUrl});
       if (pureGithub.contains('github.com/')) {
-        candidateSources.add({'label': '🚀 国内高速源 A', 'url': 'https://gh-proxy.com/$pureGithub'});
-        candidateSources.add({'label': '🚀 国内高速源 B', 'url': 'https://cdn.gh-proxy.org/$pureGithub'});
+        candidateSources.add({'label': '🚀 国内高速源 (推荐)', 'url': 'https://gh-proxy.com/$pureGithub'});
+        candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': cfUrl});
         candidateSources.add({'label': '🚀 腾讯 Edge 节点', 'url': 'https://edgeone.gh-proxy.org/$pureGithub'});
+        candidateSources.add({'label': '🚀 国内备用源 B', 'url': 'https://cdn.gh-proxy.org/$pureGithub'});
         candidateSources.add({'label': '🌐 GitHub 官方源 (需VPN)', 'url': pureGithub});
       } else {
+        candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': cfUrl});
         candidateSources.add({'label': '默认源', 'url': url});
       }
     }
@@ -403,6 +404,31 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         DateTime lastSpeedTime = DateTime.now();
         DateTime lastDataReceivedTime = DateTime.now();
         DateTime downloadStartTime = DateTime.now();
+        double currentSpeedBytesPerSec = 0.0;
+
+        Timer? stallWatchdog;
+        stallWatchdog = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+          if (cancelToken.isCancelled || sourceCancel.isCancelled) {
+            timer.cancel();
+            return;
+          }
+          final checkNow = DateTime.now();
+          if (checkNow.difference(lastDataReceivedTime).inMilliseconds >= 3000) {
+            if (sourceIndex + 1 < candidateSources.length) {
+              log('Watchdog: Download stalled for 3.0s with no chunks from $label, auto-switching...', name: 'DownloadApkDialog');
+              timer.cancel();
+              sourceCancel.cancel('auto_switch_stalled');
+            }
+          }
+          final totalSec = checkNow.difference(downloadStartTime).inSeconds;
+          if (totalSec >= 3 && currentSpeedBytesPerSec < 450 * 1024 && totalBytes > 10 * 1024 * 1024) {
+            if (receivedBytes < totalBytes * 0.85 && sourceIndex + 1 < candidateSources.length) {
+              log('Watchdog: Speed too low (${(currentSpeedBytesPerSec / 1024).toStringAsFixed(0)} KB/s), auto-switching...', name: 'DownloadApkDialog');
+              timer.cancel();
+              sourceCancel.cancel('auto_switch_low_speed');
+            }
+          }
+        });
 
         try {
           await for (final chunk in response.data!.stream) {
@@ -415,11 +441,11 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
             final now = DateTime.now();
             final elapsedMs = now.difference(lastSpeedTime).inMilliseconds;
-            if (elapsedMs >= 800) {
+            if (elapsedMs >= 600) {
               final diffBytes = receivedBytes - lastSecondBytes;
-              final speedBytesPerSec = (diffBytes / (elapsedMs / 1000.0));
-              final speedMb = speedBytesPerSec / (1024 * 1024);
-              final speedKb = speedBytesPerSec / 1024;
+              currentSpeedBytesPerSec = (diffBytes / (elapsedMs / 1000.0));
+              final speedMb = currentSpeedBytesPerSec / (1024 * 1024);
+              final speedKb = currentSpeedBytesPerSec / 1024;
               final speedStr = speedMb >= 1.0
                   ? '${speedMb.toStringAsFixed(1)} MB/s'
                   : '${speedKb.toStringAsFixed(0)} KB/s';
@@ -429,28 +455,12 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
               lastSpeedTime = now;
 
               onProgress(receivedBytes, totalBytes);
-
-              final totalDurationSec = now.difference(downloadStartTime).inSeconds;
-              if (totalDurationSec >= 6 && speedBytesPerSec < 300 * 1024 && totalBytes > 10 * 1024 * 1024) {
-                if (receivedBytes < totalBytes * 0.8 && sourceIndex + 1 < candidateSources.length) {
-                  log('Download speed too slow ($speedStr), auto switching to next candidate...', name: 'DownloadApkDialog');
-                  sourceCancel.cancel('auto_switch_low_speed');
-                  break;
-                }
-              }
             } else {
               onProgress(receivedBytes, totalBytes);
             }
-
-            if (now.difference(lastDataReceivedTime).inMilliseconds > 4500) {
-              if (sourceIndex + 1 < candidateSources.length) {
-                log('Download stalled for 4.5s, auto switching to next candidate...', name: 'DownloadApkDialog');
-                sourceCancel.cancel('auto_switch_stalled');
-                break;
-              }
-            }
           }
         } finally {
+          stallWatchdog.cancel();
           await sink.flush();
           await sink.close();
         }

@@ -83,10 +83,21 @@ async function handleRequest(request, ctx) {
 
 async function handleProxy(request, targetUrl, isJson = false) {
   try {
+    const reqUrl = new URL(request.url);
+    const isApk = targetUrl.toLowerCase().endsWith('.apk');
+    const isDirectRaw = reqUrl.searchParams.get('raw') === '1';
+    const country = request.cf ? (request.cf.country || '') : '';
+
+    // 针对 APK 大文件，国内直连用户（CN）或未指定 raw 的浏览器下载，直接 302 重定向到国内满速专线节点，免除跨国 QoS 限速
+    if (isApk && !isDirectRaw) {
+      // 只要是国内用户或者普通网页下载，毫秒级 302 重定向到国内顶速 CDN
+      const pure = targetUrl.replace(/^https?:\/\/+/i, '');
+      return Response.redirect(`https://gh-proxy.com/https://${pure}`, 302);
+    }
+
     const reqHeaders = new Headers(request.headers);
     reqHeaders.delete('Host');
 
-    const isApk = targetUrl.toLowerCase().endsWith('.apk');
     const enableCache = isApk || isJson;
 
     const fetchOptions = {
