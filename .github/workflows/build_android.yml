@@ -132,43 +132,14 @@ jobs:
           path: dist_android/*.apk
           retention-days: 14
 
-      - name: Publish GitHub Release to pure_live
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master'
-        with:
-          repository: liwoniu-luzi/lzvideo
-          token: ${{ secrets.DEPLOY_TOKEN || secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.version.outputs.tag_name }}
-          name: "PureLive v${{ steps.version.outputs.version }} (独立共存版)"
-          body: |
-            ## PureLive v${{ steps.version.outputs.version }} (独立共存版)
-
-            ### ⚡【国内免翻墙极速下载 (Cloudflare CDN 满速直链)】：
-            - 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk)
-            - 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk)
-            - 💻 **电脑模拟器 (x86_64)**: [PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk)
-
-            ### 🚀 核心优化与新特性：
-            - ⚡【极速应用内更新】：检测到新版本后点击“立即更新”，告别跳转直接在当前应用内原地下载并弹出安装，省时省力
-            - 🚀【多源并发测速 & 断点续传】：启动下载时并发探测 Cloudflare 极速源与国内优质镜像源，毫秒级锁定最快节点；支持 HTTP Range 断点续传，切换源无需重新下载
-            - 📊【实时速率 & 低速自动换源】：下载弹窗实时展示当前下载速度（MB/s / KB/s）；内置低速与卡顿看门狗自动切源，并提供“⚡ 换极速通道”一键换源按钮
-            - 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败（FFmpeg merge failed）；移除破坏性音频过滤器，构建 Level 1 极速合并 -> Level 2 时间戳平滑重建 -> Level 3 二进制级联流式 Remux 的三级自愈引擎，保障 100% 合并成功
-            - 🌟 全新独立应用包名 `com.liwo.purelive`，手机桌面显示“纯粹直播 Pro”
-            - 📱 完美支持与原版 3.1.19 并存双开、互不干扰
-            - 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)
-            - 包含 arm64-v8a / armeabi-v7a / x86_64 三大架构分包
-          files: |
-            dist_android/*.apk
-          draft: false
-          prerelease: false
-
-      - name: Publish GitHub Release to builder repo
+      - name: Publish GitHub Release to lzvideo
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ steps.version.outputs.tag_name }}
           name: "PureLive v${{ steps.version.outputs.version }} (独立共存版)"
+          make_latest: true
           body: |
             ## PureLive v${{ steps.version.outputs.version }} (独立共存版)
 
@@ -190,4 +161,5 @@ jobs:
             dist_android/*.apk
           draft: false
           prerelease: false
+
 
