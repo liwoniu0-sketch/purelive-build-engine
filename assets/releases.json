@@ -3,30 +3,30 @@
     "version": "3.4.1",
     "title": "v3.4.1 (国内网络更新链路深度强化与Cloudflare极速通道版)",
     "date": "2026-10-19",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.4.1",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.1",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
-    "changelog": "# Pure Live v3.4.1 (国内网络更新链路深度强化与录屏三级自愈引擎版)\n\n### ⚡【国内免翻墙极速下载 (Cloudflare CDN 满速直链)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.1-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.4.1/PureLive-3.4.1-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.1-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.4.1/PureLive-3.4.1-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.1-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.4.1/PureLive-3.4.1-android-x86_64.apk)\n\n### 🚀 核心更新内容：\n- ⚡【极速应用内更新】：检测到新版本后点击“立即更新”，告别跳转直接在当前应用内原地下载并弹出安装，省时省力\n- 🚀【多源并发测速 & 断点续传】：启动下载时并发探测 Cloudflare 极速源与国内优质镜像源，毫秒级锁定最快节点；支持 HTTP Range 断点续传，切换源无需重新下载\n- 📊【实时速率 & 低速自动换源】：下载弹窗实时展示当前下载速度（MB/s / KB/s）；内置低速与卡顿看门狗自动切源，并提供“⚡ 换极速通道”一键换源按钮\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败（FFmpeg merge failed）；移除破坏性音频过滤器，构建 Level 1 极速合并 -> Level 2 时间戳平滑重建 -> Level 3 二进制级联流式 Remux 的三级自愈引擎，保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+    "changelog": "# Pure Live v3.4.1 (国内网络更新链路深度强化与录屏三级自愈引擎版)\n\n### ⚡【国内免翻墙极速下载 (Cloudflare CDN 满速直链)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.1-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.1/PureLive-3.4.1-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.1-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.1/PureLive-3.4.1-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.1-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.1/PureLive-3.4.1-android-x86_64.apk)\n\n### 🚀 核心更新内容：\n- ⚡【极速应用内更新】：检测到新版本后点击“立即更新”，告别跳转直接在当前应用内原地下载并弹出安装，省时省力\n- 🚀【多源并发测速 & 断点续传】：启动下载时并发探测 Cloudflare 极速源与国内优质镜像源，毫秒级锁定最快节点；支持 HTTP Range 断点续传，切换源无需重新下载\n- 📊【实时速率 & 低速自动换源】：下载弹窗实时展示当前下载速度（MB/s / KB/s）；内置低速与卡顿看门狗自动切源，并提供“⚡ 换极速通道”一键换源按钮\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败（FFmpeg merge failed）；移除破坏性音频过滤器，构建 Level 1 极速合并 -> Level 2 时间戳平滑重建 -> Level 3 二进制级联流式 Remux 的三级自愈引擎，保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
     "files": [
       {
         "name": "PureLive-3.4.1-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.4.1/PureLive-3.4.1-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.1/PureLive-3.4.1-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.4.1-android-armeabi-v7a.apk",
         "size": "134.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.4.1/PureLive-3.4.1-android-armeabi-v7a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.1/PureLive-3.4.1-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.4.1-android-x86_64.apk",
         "size": "142.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.4.1/PureLive-3.4.1-android-x86_64.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.1/PureLive-3.4.1-android-x86_64.apk"
       }
     ]
   },
@@ -34,10 +34,10 @@
     "version": "3.4.0",
     "title": "v3.4.0 (多视口槽位精准隔离与硬件解耦终结版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.4.0",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.0",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.4.0 (多视口槽位精准隔离与硬件解耦终结版)\n\n- 彻底解决关掉第一个视口第二个画面失效与添加错位：重构视口清空机制，关掉某个直播间时该槽位优雅变回空白选台卡片，后续格子的底层硬件槽位保持不变，各视口完全独立运作、零错位、零黑屏\n- 彻底根治起播失败 OperationCancelledException (Previous player continuation was superseded)：消除底层布局引擎容量越界争抢，视口增加动态扩容，彻底屏蔽取消竞态误报\n- 彻底解决多视口画面显示滞后：状态更新显式触发 RxList 广播与页面级 cells 监听，加一个房间 0 延迟秒出画面\n- 精准绑定选台视口槽位：消除全局索引偏移，选哪个视口精准加入哪个视口\n- 彻底根治多视口声音切换与同时发声：在起播首帧完成瞬间下发真实音量，同步通知底层布局音频焦点与直穿 media_kit Player 硬件音量，彻底实现各房间独立出声与单声音/混音无缝切换\n- 彻底根治视口删除失败：将删除按钮重构至最顶层 Stack，解除底层手势拦截阻断，点击红叉 0 延迟秒删并自动缩容重排\n- 彻底根治选台历史记录全显示直播中：修正 LiveRoom 历史快照状态降级逻辑，未查回或下播的主播 100% 准确显示未开播灰灯\n- 彻底解决选台后卡黑屏：首帧未完成时优雅呈现加载动画与自愈重连，杜绝死等黑块\n- 多视口所有直播间全量同步弹幕：所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -45,7 +45,7 @@
         "name": "PureLive-3.4.0-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.4.0/PureLive-3.4.0-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.0/PureLive-3.4.0-android-arm64-v8a.apk"
       }
     ]
   },
@@ -53,10 +53,10 @@
     "version": "3.3.9",
     "title": "v3.3.9 (底层容量与起播竞态彻底根治版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.9",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.9",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.9 (底层容量与起播竞态彻底根治版)\n\n- 彻底根治起播失败 OperationCancelledException (Previous player continuation was superseded)：消除底层布局引擎容量越界争抢，视口增加动态扩容，彻底屏蔽取消竞态误报\n- 彻底解决多视口画面显示滞后：状态更新显式触发 RxList 广播与页面级 cells 监听，加一个房间 0 延迟秒出画面\n- 精准绑定选台视口槽位：消除全局索引偏移，选哪个视口精准加入哪个视口\n- 彻底根治多视口声音切换与同时发声：在起播首帧完成瞬间下发真实音量，同步通知底层布局音频焦点与直穿 media_kit Player 硬件音量，彻底实现各房间独立出声与单声音/混音无缝切换\n- 彻底根治视口删除失败：将删除按钮重构至最顶层 Stack，解除底层手势拦截阻断，点击红叉 0 延迟秒删并自动缩容重排\n- 彻底根治选台历史记录全显示直播中：修正 LiveRoom 历史快照状态降级逻辑，未查回或下播的主播 100% 准确显示未开播灰灯\n- 彻底解决选台后卡黑屏：首帧未完成时优雅呈现加载动画与自愈重连，杜绝死等黑块\n- 多视口所有直播间全量同步弹幕：所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -64,7 +64,7 @@
         "name": "PureLive-3.3.9-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.9/PureLive-3.3.9-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.9/PureLive-3.3.9-android-arm64-v8a.apk"
       }
     ]
   },
@@ -72,10 +72,10 @@
     "version": "3.3.8",
     "title": "v3.3.8 (多视口响应式重绘与精准槽位终结版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.8",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.8",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.8 (多视口响应式重绘与精准槽位终结版)\n\n- 终极解决多视口画面显示滞后：状态更新显式触发 RxList 广播与页面级 cells 监听，加一个房间 0 延迟秒出画面，彻底告别必须操作下一个才显示的死穴\n- 精准绑定选台视口槽位：消除全局索引偏移，选哪个视口精准加入哪个视口\n- 彻底根治多视口视频播放失败只有声音：移除起播握手期的过早焦点与音量抢占冲突，延迟至首帧渲染完成无缝接管，杜绝加入新直播间时画面崩溃报错\n- 彻底根治多视口声音切换与同时发声：在起播首帧完成瞬间下发真实音量，同步通知底层布局音频焦点与直穿 media_kit Player 硬件音量，彻底实现各房间独立出声与单声音/混音无缝切换\n- 彻底根治视口删除失败：将删除按钮重构至最顶层 Stack，解除底层手势拦截阻断，点击红叉 0 延迟秒删并自动缩容重排\n- 彻底根治选台历史记录全显示直播中：修正 LiveRoom 历史快照状态降级逻辑，未查回或下播的主播 100% 准确显示未开播灰灯\n- 彻底解决选台后卡黑屏：首帧未完成时优雅呈现加载动画与自愈重连，杜绝死等黑块\n- 多视口所有直播间全量同步弹幕：所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -83,7 +83,7 @@
         "name": "PureLive-3.3.8-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.8/PureLive-3.3.8-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.8/PureLive-3.3.8-android-arm64-v8a.apk"
       }
     ]
   },
@@ -91,10 +91,10 @@
     "version": "3.3.7",
     "title": "v3.3.7 (多视口起播状态机冲突彻底根治版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.7",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.7",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.7 (多视口起播状态机冲突彻底根治版)\n\n- 彻底根治多视口视频播放失败只有声音：移除起播握手期的过早焦点与音量抢占冲突，延迟至首帧渲染完成无缝接管，杜绝加入新直播间时画面崩溃报错\n- 彻底根治多视口声音切换与同时发声：在起播首帧完成瞬间下发真实音量，同步通知底层布局音频焦点与直穿 media_kit Player 硬件音量，彻底实现各房间独立出声与单声音/混音无缝切换\n- 彻底根治视口删除失败：将删除按钮重构至最顶层 Stack，解除底层手势拦截阻断，点击红叉 0 延迟秒删并自动缩容重排\n- 彻底根治选台历史记录全显示直播中：修正 LiveRoom 历史快照状态降级逻辑，未查回或下播的主播 100% 准确显示未开播灰灯\n- 彻底解决选台后卡黑屏：首帧未完成时优雅呈现加载动画与自愈重连，杜绝死等黑块\n- 多视口所有直播间全量同步弹幕：所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -102,7 +102,7 @@
         "name": "PureLive-3.3.7-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.7/PureLive-3.3.7-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.7/PureLive-3.3.7-android-arm64-v8a.apk"
       }
     ]
   },
@@ -110,10 +110,10 @@
     "version": "3.3.6",
     "title": "v3.3.6 (多视口声音焦点与历史状态终结修正版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.6",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.6",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.6 (多视口声音焦点与历史状态终结修正版)\n\n- 彻底根治多视口声音切换与同时发声：在起播首帧完成瞬间下发真实音量，同步通知底层布局音频焦点与直穿 media_kit Player 硬件音量，彻底实现各房间独立出声与单声音/混音无缝切换\n- 彻底根治视口删除失败：将删除按钮重构至最顶层 Stack，解除底层手势拦截阻断，点击红叉 0 延迟秒删并自动缩容重排\n- 彻底根治选台历史记录全显示直播中：修正 LiveRoom 历史快照状态降级逻辑，未查回或下播的主播 100% 准确显示未开播灰灯\n- 彻底解决选台后卡黑屏：首帧未完成时优雅呈现加载动画与自愈重连，杜绝死等黑块\n- 多视口所有直播间全量同步弹幕：所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -121,7 +121,7 @@
         "name": "PureLive-3.3.6-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.6/PureLive-3.3.6-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.6/PureLive-3.3.6-android-arm64-v8a.apk"
       }
     ]
   },
@@ -129,10 +129,10 @@
     "version": "3.3.5",
     "title": "v3.3.5 (多视口真混音与视口删除秒删终结版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.5",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.5",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.5 (多视口真混音与视口删除秒删终结版)\n\n- 彻底解决多视口声音只有第一个房间出声：直接穿透底层 media_kit Player 实例控制音量，各视口声音独立调节与单声音/混音切换真实生效\n- 彻底解决视口卡片无法删除：将删除按钮重构至最顶层 Stack，彻底解决被底层手势拦截吃掉点击的问题，一键秒删视口并缩容重排\n- 彻底解决加选台时历史记录全是正在直播：进入选台弹窗自动并发查询并刷新历史主播真实开播状态，下播即时显示未开播\n- 彻底解决选台后卡黑屏：首帧未完成时优雅呈现加载动画与自愈重连，杜绝死等黑块\n- 多视口所有直播间全量同步弹幕：所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -140,7 +140,7 @@
         "name": "PureLive-3.3.5-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.5/PureLive-3.3.5-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.5/PureLive-3.3.5-android-arm64-v8a.apk"
       }
     ]
   },
@@ -148,10 +148,10 @@
     "version": "3.3.4",
     "title": "v3.3.4 (多视口硬件混音与自愈全面升级版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.4",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.4",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.4 (多视口硬件混音与自愈全面升级版)\n\n- 彻底解决多视口同时发声与调音台无效：直接穿透底层播放内核硬件级音量控制，各视口声音大小独立调节真实生效\n- 新增多视口单声音来源模式自由开关：支持【单声音来源(点选切换出声)】与【多房间同时发声(多路混音)】一键自由切换\n- 彻底解决空白选台卡片无法删除与显示延迟：新增即时刷新与视口删除缩容重排版功能，空白卡片秒级显出，右上角点✕即删\n- 彻底解决历史记录全部显示直播中：进入历史记录页面自动静默同步真实开播状态，下播即时显示未开播\n- 彻底解决多视口选台后卡黑屏：首帧未完成时优雅呈现加载动画与自愈重连，杜绝死等黑块\n- 多视口所有直播间全量同步弹幕：所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -159,7 +159,7 @@
         "name": "PureLive-3.3.4-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.4/PureLive-3.3.4-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.4/PureLive-3.3.4-android-arm64-v8a.apk"
       }
     ]
   },
@@ -167,10 +167,10 @@
     "version": "3.3.3",
     "title": "v3.3.3 (多视口全房间实时同步弹幕版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.3",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.3",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.3 (多视口全房间实时同步弹幕版)\n\n- 多视口所有直播间全量同步弹幕：每个视口拥有独立弹幕引擎连接与独立弹幕发射控制器，所有开播房间的实时弹幕全部同步展示，互不干扰\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗，自适应屏幕尺寸，拖拽流畅\n- 多视口多路混音同时发声：支持多房间同时播放声音，配备独立调音台，各视口声音大小随心调节\n- 多视口自由扩展与自动排版：取消房间数量死限制，支持随时添加直播间，智能计算行列自动完美均分排版\n- 精准限制小窗触发时机：只有且仅在观看直播时退出才允许触发小窗，主页、设置退出干净回到桌面\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -178,7 +178,7 @@
         "name": "PureLive-3.3.3-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.3/PureLive-3.3.3-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.3/PureLive-3.3.3-android-arm64-v8a.apk"
       }
     ]
   },
@@ -186,10 +186,10 @@
     "version": "3.3.2",
     "title": "v3.3.2 (应用内小窗与多视口混音自动排版终极版)",
     "date": "2026-10-13",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.2",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.2",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.2 (应用内小窗与多视口混音自动排版终极版)\n\n- 软件内离开直播间自动小窗：返回主页/分类时在右下角优雅展示精致悬浮小窗，自适应屏幕尺寸，拖拽流畅\n- 多视口重大升级：支持多房间同时播放声音 (多路混音模式)，配备独立调音台，各视口声音大小随心调节\n- 多视口自由扩展与自动排版：取消房间数量死限制，支持随时添加直播间，智能计算行列自动完美均分排版\n- 精准限制小窗触发时机：只有且仅在观看直播时退出才允许触发小窗，主页、设置退出干净回到桌面\n- 彻底解决弹幕无法自动滚动：滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -197,7 +197,7 @@
         "name": "PureLive-3.3.2-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.2/PureLive-3.3.2-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.2/PureLive-3.3.2-android-arm64-v8a.apk"
       }
     ]
   },
@@ -205,10 +205,10 @@
     "version": "3.3.1",
     "title": "v3.3.1 (精准小窗触发时机优化版)",
     "date": "2026-10-12",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.1",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.1",
     "author": {
-      "name": "liwo1861a-hub",
-      "profile": "https://github.com/liwo1861a-hub"
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
     },
     "changelog": "# Pure Live v3.3.1 (精准小窗触发时机优化版)\n\n- 精准限制小窗触发时机：彻底解决无论处于何种界面退出都会进入小窗的问题，只有且仅在进入直播间观看直播时退出才允许触发小窗，在主页、分类、设置等任何非直播间页面退出时直接干净回到桌面，绝不误弹小窗\n- 彻底解决弹幕无法自动滚动：优化弹幕列表智能跟随算法，滑回底部自动恢复跟随，无需必须点击悬浮按钮\n- 彻底解决更换网络画面黑屏：内置网络切换智能感知自愈，WiFi 与移动数据切换时自动静默刷新恢复画面，杜绝黑屏死等手动刷新\n- 彻底解决漏弹幕问题：移除缓冲与状态波动时的硬编码丢弃拦截，每条弹幕 100% 完整发射上屏\n- 优化画中画小窗体验：画中画模式下 100% 纯净全屏展示视频画面，彻底隐藏顶部标题、设置按钮与输入栏\n- 彻底解决观看过程中卡顿黑屏：内置时间戳看门狗，画面定格超 3~4 秒自动静默重拉新流自愈\n- 退出直播间全场景立马自动开启小窗 (软件内应用小窗 + 桌面系统画中画)\n- 修复后台 1 分钟断网暂停与切回前台 2 秒卡顿死循环\n- 修复进入直播点击右下角全屏放大误放大成竖屏的问题 (强制旋转横屏)\n- 下载源明确划分并新增 GitHub 官方源直链：直观提供【⚡ 极速源 (Cloudflare)】与【🌐 GitHub 官方源】双通道\n- 下载超时扩至 15 分钟，修复镜像双重代理嵌套 Bug\n- 强化 Cloudflare Worker 边缘缓存，提升大文件下载速度\n- 全新独立共存版 (包名 com.liwo.purelive，桌面显示“纯粹直播 Pro”)，可与原版 3.1.19 并存双开\n- 永久固化全新专属 100 年商业级签名",
     "files": [
@@ -216,7 +216,7 @@
         "name": "PureLive-3.3.1-android-arm64-v8a.apk",
         "size": "138.0mb",
         "downloads": 0,
-        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.1/PureLive-3.3.1-android-arm64-v8a.apk"
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.1/PureLive-3.3.1-android-arm64-v8a.apk"
       }
     ]
   },
@@ -224,7 +224,7 @@
     "version": "3.3.0",
     "title": "PureLive v3.3.0 (独立共存版)",
     "date": "2026-10-12",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.3.0",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.3.0",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -236,19 +236,19 @@
         "name": "PureLive-3.3.0-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.0/PureLive-3.3.0-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.0/PureLive-3.3.0-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.3.0-android-armeabi-v7a",
         "size": "113.15mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.0/PureLive-3.3.0-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.0/PureLive-3.3.0-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.3.0-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.3.0/PureLive-3.3.0-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.3.0/PureLive-3.3.0-android-x86_64.apk"
       }
     ]
   },
@@ -256,7 +256,7 @@
     "version": "3.2.9",
     "title": "PureLive v3.2.9 (独立共存版)",
     "date": "2026-10-12",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.9",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.9",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -268,19 +268,19 @@
         "name": "PureLive-3.2.9-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 3,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.9/PureLive-3.2.9-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.9/PureLive-3.2.9-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.9-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.9/PureLive-3.2.9-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.9/PureLive-3.2.9-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.9-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.9/PureLive-3.2.9-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.9/PureLive-3.2.9-android-x86_64.apk"
       }
     ]
   },
@@ -288,7 +288,7 @@
     "version": "3.2.8",
     "title": "PureLive v3.2.8 (独立共存版)",
     "date": "2026-10-11",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.8",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.8",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -300,19 +300,19 @@
         "name": "PureLive-3.2.8-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.8/PureLive-3.2.8-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.8/PureLive-3.2.8-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.8-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.8/PureLive-3.2.8-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.8/PureLive-3.2.8-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.8-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.8/PureLive-3.2.8-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.8/PureLive-3.2.8-android-x86_64.apk"
       }
     ]
   },
@@ -320,7 +320,7 @@
     "version": "3.2.7",
     "title": "PureLive v3.2.7 (独立共存版)",
     "date": "2026-10-11",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.7",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.7",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -332,19 +332,19 @@
         "name": "PureLive-3.2.7-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.7/PureLive-3.2.7-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.7/PureLive-3.2.7-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.7-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.7/PureLive-3.2.7-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.7/PureLive-3.2.7-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.7-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.7/PureLive-3.2.7-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.7/PureLive-3.2.7-android-x86_64.apk"
       }
     ]
   },
@@ -352,7 +352,7 @@
     "version": "3.2.6",
     "title": "PureLive v3.2.6 (独立共存版)",
     "date": "2026-10-11",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.6",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.6",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -364,19 +364,19 @@
         "name": "PureLive-3.2.6-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.6/PureLive-3.2.6-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.6/PureLive-3.2.6-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.6-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.6/PureLive-3.2.6-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.6/PureLive-3.2.6-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.6-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.6/PureLive-3.2.6-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.6/PureLive-3.2.6-android-x86_64.apk"
       }
     ]
   },
@@ -384,7 +384,7 @@
     "version": "3.2.5",
     "title": "PureLive v3.2.5 (独立共存版)",
     "date": "2026-10-11",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.5",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.5",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -396,19 +396,19 @@
         "name": "PureLive-3.2.5-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.5/PureLive-3.2.5-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.5/PureLive-3.2.5-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.5-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.5/PureLive-3.2.5-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.5/PureLive-3.2.5-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.5-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.5/PureLive-3.2.5-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.5/PureLive-3.2.5-android-x86_64.apk"
       }
     ]
   },
@@ -416,7 +416,7 @@
     "version": "3.2.4",
     "title": "PureLive v3.2.4 (独立共存版)",
     "date": "2026-10-11",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.4",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.4",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -428,19 +428,19 @@
         "name": "PureLive-3.2.4-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.4/PureLive-3.2.4-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.4/PureLive-3.2.4-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.4-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.4/PureLive-3.2.4-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.4/PureLive-3.2.4-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.4-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.4/PureLive-3.2.4-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.4/PureLive-3.2.4-android-x86_64.apk"
       }
     ]
   },
@@ -448,7 +448,7 @@
     "version": "3.2.3",
     "title": "PureLive v3.2.3 (独立共存版)",
     "date": "2026-10-11",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.3",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.3",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -460,19 +460,19 @@
         "name": "PureLive-3.2.3-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.3/PureLive-3.2.3-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.3/PureLive-3.2.3-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.3-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.3/PureLive-3.2.3-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.3/PureLive-3.2.3-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.3-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.3/PureLive-3.2.3-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.3/PureLive-3.2.3-android-x86_64.apk"
       }
     ]
   },
@@ -480,7 +480,7 @@
     "version": "3.2.2",
     "title": "PureLive v3.2.2 (独立共存版)",
     "date": "2026-10-10",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.2",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.2",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -492,19 +492,19 @@
         "name": "PureLive-3.2.2-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.2/PureLive-3.2.2-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.2/PureLive-3.2.2-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.2-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.2/PureLive-3.2.2-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.2/PureLive-3.2.2-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.2-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.2/PureLive-3.2.2-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.2/PureLive-3.2.2-android-x86_64.apk"
       }
     ]
   },
@@ -512,7 +512,7 @@
     "version": "3.2.1",
     "title": "PureLive v3.2.1 (独立共存版)",
     "date": "2026-10-10",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.1",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.1",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -524,19 +524,19 @@
         "name": "PureLive-3.2.1-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 3,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.1/PureLive-3.2.1-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.1/PureLive-3.2.1-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.1-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.1/PureLive-3.2.1-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.1/PureLive-3.2.1-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.1-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.1/PureLive-3.2.1-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.1/PureLive-3.2.1-android-x86_64.apk"
       }
     ]
   },
@@ -544,7 +544,7 @@
     "version": "3.2.0",
     "title": "PureLive v3.2.0 (独立共存版)",
     "date": "2026-10-10",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.2.0",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.2.0",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -556,19 +556,19 @@
         "name": "PureLive-3.2.0-android-arm64-v8a",
         "size": "132.55mb",
         "downloads": 2,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.0/PureLive-3.2.0-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.0/PureLive-3.2.0-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.2.0-android-armeabi-v7a",
         "size": "113.13mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.0/PureLive-3.2.0-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.0/PureLive-3.2.0-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.2.0-android-x86_64",
         "size": "140.52mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.2.0/PureLive-3.2.0-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.2.0/PureLive-3.2.0-android-x86_64.apk"
       }
     ]
   },
@@ -576,7 +576,7 @@
     "version": "3.1.20",
     "title": "PureLive v3.1.20",
     "date": "2026-10-10",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.1.20",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.1.20",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -588,19 +588,19 @@
         "name": "PureLive-3.1.20-android-arm64-v8a",
         "size": "112.91mb",
         "downloads": 3,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.1.20/PureLive-3.1.20-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.1.20/PureLive-3.1.20-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.1.20-android-armeabi-v7a",
         "size": "100.33mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.1.20/PureLive-3.1.20-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.1.20/PureLive-3.1.20-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.1.20-android-x86_64",
         "size": "127.45mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.1.20/PureLive-3.1.20-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.1.20/PureLive-3.1.20-android-x86_64.apk"
       }
     ]
   },
@@ -608,7 +608,7 @@
     "version": "3.0.6",
     "title": "PureLive v3.0.6",
     "date": "2026-10-10",
-    "github": "https://github.com/liwo1861a-hub/pure_live/releases/tag/v3.0.6",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.0.6",
     "author": {
       "name": "github-actions[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/15368?v=4",
@@ -620,19 +620,19 @@
         "name": "PureLive-3.0.6-android-arm64-v8a",
         "size": "112.91mb",
         "downloads": 1,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.0.6/PureLive-3.0.6-android-arm64-v8a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.0.6/PureLive-3.0.6-android-arm64-v8a.apk"
       },
       {
         "name": "PureLive-3.0.6-android-armeabi-v7a",
         "size": "100.33mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.0.6/PureLive-3.0.6-android-armeabi-v7a.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.0.6/PureLive-3.0.6-android-armeabi-v7a.apk"
       },
       {
         "name": "PureLive-3.0.6-android-x86_64",
         "size": "127.45mb",
         "downloads": 0,
-        "url": "https://github.com/liwo1861a-hub/pure_live/releases/download/v3.0.6/PureLive-3.0.6-android-x86_64.apk"
+        "url": "https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.0.6/PureLive-3.0.6-android-x86_64.apk"
       }
     ]
   },

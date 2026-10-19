@@ -4,7 +4,7 @@
 class AppConfig {
   /// Override this instance to mock the environment.
   /// Example: `AppConfig.instance = MockAppConfigData();`
-  static AppConfigData instance = AppConfigData();
+  static AppConfigData instance = MockAppConfigData();
 
   static String get pureliveUpdateOwner => instance.pureliveUpdateOwner;
   static String get pureliveUpdateRepository => instance.pureliveUpdateRepository;
@@ -14,13 +14,15 @@ class AppConfig {
 }
 
 class AppConfigData {
-  final String pureliveUpdateOwner = 'liwo1861a-hub';
+  final String pureliveUpdateOwner = 'liwoniu-luzi';
 
-  final String pureliveUpdateRepository = 'pure_live';
+  final String pureliveUpdateRepository = 'lzvideo';
 
-  final String pureliveNativeOwner = 'wzgrx';
+  final String pureliveNativeOwner = 'liwoniu-luzi';
 
-  final String pureliveNativeRepository = 'pure_live';
+  final String pureliveNativeRepository = 'lzvideo';
 
   final String pureliveTvRepository = 'pure_live_TV';
 }
+
+class MockAppConfigData extends AppConfigData {}

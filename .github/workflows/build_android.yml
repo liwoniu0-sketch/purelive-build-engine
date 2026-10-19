@@ -136,7 +136,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master'
         with:
-          repository: liwo1861a-hub/pure_live
+          repository: liwoniu-luzi/lzvideo
           token: ${{ secrets.DEPLOY_TOKEN || secrets.GITHUB_TOKEN }}
           tag_name: ${{ steps.version.outputs.tag_name }}
           name: "PureLive v${{ steps.version.outputs.version }} (独立共存版)"
@@ -144,9 +144,9 @@ jobs:
             ## PureLive v${{ steps.version.outputs.version }} (独立共存版)
 
             ### ⚡【国内免翻墙极速下载 (Cloudflare CDN 满速直链)】：
-            - 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk)
-            - 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk)
-            - 💻 **电脑模拟器 (x86_64)**: [PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk)
+            - 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk)
+            - 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk)
+            - 💻 **电脑模拟器 (x86_64)**: [PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk)
 
             ### 🚀 核心优化与新特性：
             - ⚡【极速应用内更新】：检测到新版本后点击“立即更新”，告别跳转直接在当前应用内原地下载并弹出安装，省时省力
@@ -173,9 +173,9 @@ jobs:
             ## PureLive v${{ steps.version.outputs.version }} (独立共存版)
 
             ### ⚡【国内免翻墙极速下载 (Cloudflare CDN 满速直链)】：
-            - 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk)
-            - 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk)
-            - 💻 **电脑模拟器 (x86_64)**: [PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk)
+            - 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk)
+            - 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk)
+            - 💻 **电脑模拟器 (x86_64)**: [PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk)
 
             ### 🚀 核心优化与新特性：
             - ⚡【极速应用内更新】：检测到新版本后点击“立即更新”，告别跳转直接在当前应用内原地下载并弹出安装，省时省力

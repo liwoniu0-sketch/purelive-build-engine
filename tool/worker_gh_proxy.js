@@ -7,8 +7,8 @@
  * 3. 智能跟随 GitHub 302 重定向
  */
 
-const DEFAULT_OWNER = 'liwo1861a-hub';
-const DEFAULT_REPO = 'pure_live';
+const DEFAULT_OWNER = 'liwoniu-luzi';
+const DEFAULT_REPO = 'lzvideo';
 
 export default {
   async fetch(request, env, ctx) {
