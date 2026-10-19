@@ -411,7 +411,7 @@ class VideoProcessorService extends GetxService {
         // listener and task exclusion until the actual execution settles. The
         // caller receives failure promptly; retries do not race the old writer.
         unawaited(
-          execution
+          execution!
               .then<void>(
                 (_) {},
                 onError: (Object error, StackTrace stack) {
