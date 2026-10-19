@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:pure_live/core/index.dart';
 import 'package:pure_live/features/version/app_update_flow.dart';
@@ -376,13 +377,26 @@ class VersionPage extends GetView<VersionController> {
                         onPressed: controller.downloadPending.value
                             ? null
                             : () => _showActionDialog(context, title, mirrorUrls[i], i + 1),
-                        icon: const Icon(Remix.link_m, size: 14),
+                        icon: Icon(
+                          mirrorUrls[i].contains('gh.lz1861.ccwu.cc')
+                              ? Remix.flashlight_fill
+                              : (!mirrorUrls[i].contains('gh') && !mirrorUrls[i].contains('proxy') && mirrorUrls[i].contains('github.com'))
+                                  ? Remix.global_line
+                                  : Remix.link_m,
+                          size: 15,
+                        ),
                         label: Text(
                           mirrorUrls[i].contains('gh.lz1861.ccwu.cc')
-                              ? '⚡ 极速源 (推荐)'
+                              ? '⚡ 国内极速源 (CF免翻墙)'
                               : (!mirrorUrls[i].contains('gh') && !mirrorUrls[i].contains('proxy') && mirrorUrls[i].contains('github.com'))
-                                  ? '🌐 GitHub 官方源'
-                                  : i18n("download_source", args: {"num": "${i + 1}"}),
+                                  ? '🌐 GitHub 官方源 (需VPN)'
+                                  : mirrorUrls[i].contains('gh-proxy.com')
+                                      ? '🚀 国内高速源 A'
+                                      : mirrorUrls[i].contains('cdn.gh-proxy.org')
+                                          ? '🚀 国内高速源 B'
+                                          : mirrorUrls[i].contains('edgeone')
+                                              ? '🚀 腾讯 Edge 节点'
+                                              : '备用通道 ${i + 1}',
                           style: AppTextStyles.t12.copyWith(fontWeight: FontWeight.w600),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -486,6 +500,19 @@ class VersionPage extends GetView<VersionController> {
                 },
                 icon: const Icon(Remix.clipboard_line, size: 20),
                 label: Text(i18n('copy_link'), textAlign: TextAlign.center),
+              ),
+              const SizedBox(height: 8),
+              TextButton.icon(
+                key: const ValueKey('version-source-browser'),
+                onPressed: () async {
+                  Navigator.of(dialogContext).pop();
+                  final uri = Uri.tryParse(targetUrl);
+                  if (uri != null) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                icon: const Icon(Remix.external_link_line, size: 20),
+                label: const Text('系统浏览器直接打开', textAlign: TextAlign.center),
               ),
             ],
           ),

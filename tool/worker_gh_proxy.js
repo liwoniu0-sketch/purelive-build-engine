@@ -10,64 +10,64 @@
 const DEFAULT_OWNER = 'liwoniu-luzi';
 const DEFAULT_REPO = 'lzvideo';
 
-export default {
-  async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-    const pathname = url.pathname;
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request, event));
+});
 
-    // CORS 预检
-    if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
-          'Access-Control-Allow-Headers': '*',
-          'Access-Control-Max-Age': '86400',
-        }
-      });
-    }
+async function handleRequest(request, ctx) {
+  const url = new URL(request.url);
+  const pathname = url.pathname;
 
-    // 1. 直链通用前缀代理：兼容 /https://、/https:/、/http://、/http:/
-    if (/^\/https?:\/+/i.test(pathname)) {
-      const target = pathname.replace(/^\/+(https?):\/+/i, '$1://') + url.search;
-      return handleProxy(request, target);
-    }
-
-    // 2. /gh/... 形式通用代理
-    if (pathname.startsWith('/gh/')) {
-      let target = pathname.substring(4) + url.search;
-      if (!target.startsWith('http')) target = 'https://' + target;
-      return handleProxy(request, target);
-    }
-
-    // 3. /releases/download/... 形式代理 (默认仓库或指定路径)
-    if (pathname.includes('/releases/download/')) {
-      let target = pathname;
-      if (!target.startsWith('http')) {
-        if (!target.startsWith('/')) target = '/' + target;
-        if (target.startsWith('/releases/download/')) {
-          target = `https://github.com/${DEFAULT_OWNER}/${DEFAULT_REPO}${target}${url.search}`;
-        } else {
-          target = `https://github.com${target}${url.search}`;
-        }
+  // CORS 预检
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Max-Age': '86400',
       }
-      return handleProxy(request, target);
-    }
+    });
+  }
 
-    // 4. 专属更新元数据快速接口：/api/version 或 /version.json
-    if (pathname === '/api/version' || pathname === '/version.json') {
-      const target = `https://raw.githubusercontent.com/${DEFAULT_OWNER}/${DEFAULT_REPO}/master/assets/version.json?_t=${Date.now()}`;
-      return handleProxy(request, target, false); // 元数据不长期缓存
-    }
+  // 1. 直链通用前缀代理：兼容 /https://、/https:/、/http://、/http:/
+  if (/^\/https?:\/+/i.test(pathname)) {
+    const target = pathname.replace(/^\/+(https?):\/+/i, '$1://') + url.search;
+    return handleProxy(request, target);
+  }
 
-    // 默认展示状态信息
+  // 2. /gh/... 形式通用代理
+  if (pathname.startsWith('/gh/')) {
+    let target = pathname.substring(4) + url.search;
+    if (!target.startsWith('http')) target = 'https://' + target;
+    return handleProxy(request, target);
+  }
+
+  // 3. /api/version - 边缘极速直出最新版本元数据 (0ms延迟)
+  if (pathname === '/api/version') {
+    const rawVersionUrl = `https://raw.githubusercontent.com/${DEFAULT_OWNER}/${DEFAULT_REPO}/master/assets/version.json`;
+    return handleProxy(request, rawVersionUrl, true);
+  }
+
+  // 4. /api/releases - 边缘极速直出全部历史发布记录
+  if (pathname === '/api/releases') {
+    const rawReleasesUrl = `https://raw.githubusercontent.com/${DEFAULT_OWNER}/${DEFAULT_REPO}/master/assets/releases.json`;
+    return handleProxy(request, rawReleasesUrl, true);
+  }
+
+  // 5. 默认根目录 - 自动重定向到最新稳定版 arm64-v8a 极速下载
+  if (pathname === '/' || pathname === '') {
     return new Response(JSON.stringify({
-      status: 'ok',
-      service: 'PureLive High-Speed CDN Edge Accelerator',
-      domain: 'gh.lz1861.ccwu.cc',
-      default_repo: `${DEFAULT_OWNER}/${DEFAULT_REPO}`,
-      edge_cache: 'enabled',
-      time: new Date().toISOString()
+      name: "PureLive & lzvideo CDN Edge Accelerator",
+      owner: DEFAULT_OWNER,
+      repo: DEFAULT_REPO,
+      status: "operational",
+      domain: "gh.lz1861.ccwu.cc",
+      endpoints: {
+        raw_proxy: "https://gh.lz1861.ccwu.cc/https://github.com/...",
+        version: "https://gh.lz1861.ccwu.cc/api/version",
+        releases: "https://gh.lz1861.ccwu.cc/api/releases"
+      }
     }, null, 2), {
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -75,27 +75,30 @@ export default {
       }
     });
   }
-};
 
-async function handleProxy(request, targetUrl, enableCache = true) {
-  const reqHeaders = new Headers(request.headers);
-  reqHeaders.set('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36');
-  reqHeaders.delete('Host');
+  // 6. 其他任意路径默认视为针对当前默认仓库的资源
+  const fallbackTarget = `https://github.com/${DEFAULT_OWNER}/${DEFAULT_REPO}${pathname}${url.search}`;
+  return handleProxy(request, fallbackTarget);
+}
 
-  const isApk = targetUrl.toLowerCase().endsWith('.apk');
-
+async function handleProxy(request, targetUrl, isJson = false) {
   try {
+    const reqHeaders = new Headers(request.headers);
+    reqHeaders.delete('Host');
+
+    const isApk = targetUrl.toLowerCase().endsWith('.apk');
+    const enableCache = isApk || isJson;
+
     const fetchOptions = {
       method: request.method,
       headers: reqHeaders,
       redirect: 'follow',
     };
 
-    // 针对大文件 APK 开启 Cloudflare 边缘强力缓存
-    if (enableCache && isApk) {
+    if (enableCache) {
       fetchOptions.cf = {
         cacheEverything: true,
-        cacheTtlByStatus: { "200-299": 86400, 404: 60, "500-599": 0 }
+        cacheTtl: isApk ? 86400 : 300,
       };
     }
 

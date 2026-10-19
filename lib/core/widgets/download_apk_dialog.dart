@@ -300,10 +300,22 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
   }) async {
     final bool useOriginOnly = SettingsService.to.app.useGitHubOriginForUpdates.v;
     final String pureGithub = GitHubMirror.extractPureGithubUrl(url);
+    final bool isExplicitOfficial = useOriginOnly || (
+        !url.contains('gh.lz1861.ccwu.cc') &&
+        !url.contains('proxy') &&
+        !url.contains('mirror') &&
+        !url.contains('cdn') &&
+        url.contains('github.com/')
+    );
 
     final List<Map<String, String>> candidateSources = [];
-    if (useOriginOnly) {
-      candidateSources.add({'label': 'GitHub 官方源', 'url': pureGithub.isNotEmpty ? pureGithub : url});
+    if (isExplicitOfficial) {
+      candidateSources.add({'label': '🌐 GitHub 官方源 (需VPN)', 'url': pureGithub.isNotEmpty ? pureGithub : url});
+      candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': GitHubMirror.speedUpUrl(url)});
+      if (pureGithub.contains('github.com/')) {
+        candidateSources.add({'label': '🚀 国内高速源 A', 'url': 'https://gh-proxy.com/$pureGithub'});
+        candidateSources.add({'label': '🚀 国内高速源 B', 'url': 'https://cdn.gh-proxy.org/$pureGithub'});
+      }
     } else {
       final cfUrl = GitHubMirror.speedUpUrl(url);
       candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': cfUrl});
@@ -311,18 +323,16 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         candidateSources.add({'label': '🚀 国内高速源 A', 'url': 'https://gh-proxy.com/$pureGithub'});
         candidateSources.add({'label': '🚀 国内高速源 B', 'url': 'https://cdn.gh-proxy.org/$pureGithub'});
         candidateSources.add({'label': '🚀 腾讯 Edge 节点', 'url': 'https://edgeone.gh-proxy.org/$pureGithub'});
-        candidateSources.add({'label': '🚀 国内备用源 C', 'url': 'https://ghproxy.net/$pureGithub'});
-        candidateSources.add({'label': '🚀 国内备用源 D', 'url': 'https://github.boki.moe/$pureGithub'});
-        candidateSources.add({'label': '🌐 GitHub 官方源', 'url': pureGithub});
+        candidateSources.add({'label': '🌐 GitHub 官方源 (需VPN)', 'url': pureGithub});
       } else {
         candidateSources.add({'label': '默认源', 'url': url});
       }
     }
 
-    if (candidateSources.length > 1) {
+    if (!isExplicitOfficial && candidateSources.length > 1) {
       if (mounted) {
         setState(() {
-          _currentSourceLabel = '正在测速优选极速节点...';
+          _currentSourceLabel = '正在优选极速节点...';
         });
       }
       try {
@@ -835,14 +845,18 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
   Widget _buildActions(bool compact) {
     if (_isDownloading) {
+      final isCurrentlyOfficial = _currentSourceLabel.contains('官方');
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton.icon(
             key: const ValueKey('download-switch-source'),
             onPressed: _manualSwitchSource,
-            icon: const Icon(Icons.bolt_rounded, size: 16),
-            label: Text('⚡ 换极速通道', style: AppTextStyles.t12),
+            icon: Icon(isCurrentlyOfficial ? Icons.bolt_rounded : Icons.swap_horiz_rounded, size: 16),
+            label: Text(
+              isCurrentlyOfficial ? '⚡ 切极速通道' : '🌐 切官方/备用',
+              style: AppTextStyles.t12,
+            ),
           ),
           TextButton(
             key: const ValueKey('download-cancel'),

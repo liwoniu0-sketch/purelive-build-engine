@@ -337,31 +337,43 @@ class VersionUtil {
     };
   }
 
+  static String getOfficialApkUrl() {
+    final recommended = getRecommendedApkUrl();
+    return GitHubMirror.extractPureGithubUrl(recommended);
+  }
+
   static String getRecommendedApkUrl() {
+    String raw = '';
     if (latestAssets.isNotEmpty) {
       for (final asset in latestAssets) {
         final name = asset['name']?.toString().toLowerCase() ?? '';
         final url = asset['url']?.toString() ?? asset['browser_download_url']?.toString() ?? '';
         if (url.isNotEmpty && (name.contains('arm64') || name.contains('arm64-v8a'))) {
-          return url;
+          raw = url;
+          break;
         }
       }
-      for (final asset in latestAssets) {
-        final url = asset['url']?.toString() ?? asset['browser_download_url']?.toString() ?? '';
-        if (url.toLowerCase().endsWith('.apk')) {
-          return url;
+      if (raw.isEmpty) {
+        for (final asset in latestAssets) {
+          final url = asset['url']?.toString() ?? asset['browser_download_url']?.toString() ?? '';
+          if (url.toLowerCase().endsWith('.apk')) {
+            raw = url;
+            break;
+          }
         }
       }
     }
-    if (downloadUrl.isNotEmpty && downloadUrl.toLowerCase().endsWith('.apk')) {
-      return downloadUrl;
+    if (raw.isEmpty && downloadUrl.isNotEmpty && downloadUrl.toLowerCase().endsWith('.apk')) {
+      raw = downloadUrl;
     }
-    final cleanVer = _normalizeVersion(latestVersion.isNotEmpty ? latestVersion : '3.4.1');
-    final tag = 'v$cleanVer';
-    final repoOwner = updateOwner;
-    final repoName = updateRepository;
-    final rawBase = 'https://github.com/$repoOwner/$repoName/releases/download/$tag';
-    return 'https://gh.lz1861.ccwu.cc/$rawBase/PureLive-$cleanVer-android-arm64-v8a.apk';
+    if (raw.isEmpty) {
+      final cleanVer = _normalizeVersion(latestVersion.isNotEmpty ? latestVersion : '3.4.1');
+      final tag = 'v$cleanVer';
+      final repoOwner = updateOwner;
+      final repoName = updateRepository;
+      raw = 'https://github.com/$repoOwner/$repoName/releases/download/$tag/PureLive-$cleanVer-android-arm64-v8a.apk';
+    }
+    return GitHubMirror.speedUpUrl(raw);
   }
 
   void _resetAfterFailedCheck() {

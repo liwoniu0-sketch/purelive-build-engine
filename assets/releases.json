@@ -1,5 +1,36 @@
 [
   {
+    "version": "3.4.2",
+    "title": "v3.4.2 (双更新通道自由选择与极速应用内更新版)",
+    "date": "2026-10-19",
+    "github": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.2",
+    "author": {
+      "name": "liwoniu-luzi",
+      "profile": "https://github.com/liwoniu-luzi"
+    },
+    "changelog": "# Pure Live v3.4.2 (双更新通道自由选择与极速应用内更新版)\n\n### ⚡【国内免翻墙极速下载 (Cloudflare CDN 满速直链)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.2-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.2-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.2-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-x86_64.apk)\n\n### 🌐【GitHub 官方原版下载 (需挂代理 / VPN)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.2-android-arm64-v8a.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.2-android-armeabi-v7a.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.2-android-x86_64.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-x86_64.apk)\n\n### 🚀 v3.4.2 核心更新内容：\n- 🌟【双更新通道自由选择】：更新弹窗与版本中心全面集成【⚡ 国内极速更新(CF免翻墙)】与【🌐 GitHub官方源(需VPN)】两大独立按钮，想选哪个选哪个\n- ⚡【极速应用内更新】：检测到新版本后点击“立即更新”，告别跳转直接在当前应用内原地下载并弹出安装，省时省力\n- 🚀【多源并发测速 & 断点续传】：启动下载时并发探测 Cloudflare 极速源与国内优质镜像源，毫秒级锁定最快节点；支持 HTTP Range 断点续传，切换源无需重新下载\n- 📊【实时速率 & 随时换源】：下载弹窗实时展示当前下载速度（MB/s / KB/s）；内置看门狗与动态切换按钮，支持在极速源与官方源之间自由无缝切换\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败（FFmpeg merge failed）；构建三级自愈级联引擎，保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+    "files": [
+      {
+        "name": "PureLive-3.4.2-android-arm64-v8a.apk",
+        "size": "138.0mb",
+        "downloads": 0,
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-arm64-v8a.apk"
+      },
+      {
+        "name": "PureLive-3.4.2-android-armeabi-v7a.apk",
+        "size": "134.0mb",
+        "downloads": 0,
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-armeabi-v7a.apk"
+      },
+      {
+        "name": "PureLive-3.4.2-android-x86_64.apk",
+        "size": "142.0mb",
+        "downloads": 0,
+        "url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.2/PureLive-3.4.2-android-x86_64.apk"
+      }
+    ]
+  },
+  {
     "version": "3.4.1",
     "title": "v3.4.1 (国内网络更新链路深度强化与Cloudflare极速通道版)",
     "date": "2026-10-19",

@@ -44,7 +44,7 @@ class NewVersionDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.5),
@@ -52,11 +52,11 @@ class NewVersionDialog extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.bolt_rounded, size: 18, color: Theme.of(context).colorScheme.primary),
+                Icon(Icons.swap_calls_rounded, size: 18, color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(
-                    '⚡ 已就绪 Cloudflare 国内极速免翻墙更新通道',
+                    '支持双通道自由更新：国内直连请选【⚡ 极速源】，开启VPN请选【🌐 官方源】',
                     style: AppTextStyles.t11.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
@@ -93,8 +93,32 @@ class NewVersionDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           child: Text(i18n("cancel")),
         ),
-        FilledButton(
-          key: const ValueKey('new-version-update'),
+        TextButton(
+          key: const ValueKey('new-version-more'),
+          onPressed: () {
+            Navigator.pop(context);
+            Get.toNamed(RoutePath.kVersionPage);
+          },
+          child: const Text("更多版本"),
+        ),
+        OutlinedButton.icon(
+          key: const ValueKey('new-version-update-official'),
+          icon: const Icon(Icons.public_rounded, size: 16),
+          label: const Text("🌐 官方源 (需VPN)"),
+          onPressed: () {
+            Navigator.pop(context);
+            if (Platform.isAndroid) {
+              final targetUrl = VersionUtil.getOfficialApkUrl();
+              downloadAndInstallApk(targetUrl);
+            } else {
+              Get.toNamed(RoutePath.kVersionPage);
+            }
+          },
+        ),
+        FilledButton.icon(
+          key: const ValueKey('new-version-update-cf'),
+          icon: const Icon(Icons.bolt_rounded, size: 16),
+          label: const Text("⚡ 国内极速更新"),
           onPressed: () {
             Navigator.pop(context);
             final callback = onUpdate;
@@ -109,7 +133,6 @@ class NewVersionDialog extends StatelessWidget {
               }
             }
           },
-          child: Text(i18n("update")),
         ),
       ],
     );
