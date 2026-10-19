@@ -140,6 +140,16 @@ jobs:
           name: "PureLive v${{ steps.version.outputs.version }} (独立共存版)"
           body: |
             ## PureLive v${{ steps.version.outputs.version }} (独立共存版)
+
+            ### ⚡【国内免翻墙极速下载 (Cloudflare CDN 满速直链)】：
+            - 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-arm64-v8a.apk)
+            - 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-armeabi-v7a.apk)
+            - 💻 **电脑模拟器 (x86_64)**: [PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwo1861a-hub/pure_live/releases/download/${{ steps.version.outputs.tag_name }}/PureLive-${{ steps.version.outputs.version }}-android-x86_64.apk)
+
+            ### 🚀 核心优化与新特性：
+            - 🌟 全面强化国内网络更新体验：更新弹窗与版本中心全面置顶展示 Cloudflare 极速下载源
+            - ⚡ 更新日志内嵌全架构免翻墙直链，任意旧版本弹窗均可一键直达满速下载
+            - 🛡️ 应用内下载引擎工业级升级：自动将官方直链升级为边缘加速源，并支持多源网络波动平滑重试
             - 🌟 全新独立应用包名 `com.liwo.purelive`，手机桌面显示“纯粹直播 Pro”
             - 📱 完美支持与原版 3.1.19 并存双开、互不干扰
             - 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)

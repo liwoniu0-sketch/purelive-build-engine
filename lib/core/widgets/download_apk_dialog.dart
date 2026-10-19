@@ -8,6 +8,7 @@ import 'package:crypto/crypto.dart';
 import 'package:path/path.dart' as path;
 import 'package:open_filex/open_filex.dart';
 import 'package:pure_live/core/index.dart';
+import 'package:pure_live/core/release/github_mirror.dart';
 import 'package:pure_live/core/platform/file_utils.dart';
 import 'package:pure_live/core/config/cache_controller.dart';
 
@@ -263,19 +264,58 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
     required String destinationPath,
     required CancelToken cancelToken,
     required DownloadProgressCallback onProgress,
-  }) {
-    return _dio.download(
-      url,
-      destinationPath,
-      options: Options(
-        headers: const {'Cache-Control': 'no-cache', 'Pragma': 'no-cache', 'Expires': '0'},
-        receiveTimeout: const Duration(minutes: 15),
-        followRedirects: true,
-        maxRedirects: 5,
-      ),
-      onReceiveProgress: onProgress,
-      cancelToken: cancelToken,
-    );
+  }) async {
+    final bool useOriginOnly = SettingsService.to.app.useGitHubOriginForUpdates.v;
+    final List<String> candidateUrls = [];
+    if (useOriginOnly) {
+      candidateUrls.add(url);
+    } else {
+      final cfUrl = GitHubMirror.speedUpUrl(url);
+      candidateUrls.add(cfUrl);
+      final pureGithub = GitHubMirror.extractPureGithubUrl(url);
+      if (pureGithub.contains('github.com/')) {
+        candidateUrls.add('https://ghproxy.net/$pureGithub');
+        candidateUrls.add('https://cdn.gh-proxy.org/$pureGithub');
+        candidateUrls.add(pureGithub);
+      } else if (!candidateUrls.contains(url)) {
+        candidateUrls.add(url);
+      }
+    }
+
+    dynamic lastError;
+    for (int i = 0; i < candidateUrls.length; i++) {
+      if (cancelToken.isCancelled) return;
+      final targetUrl = candidateUrls[i];
+      try {
+        log('Attempting download from candidate ${i + 1}/${candidateUrls.length}: $targetUrl', name: 'DownloadApkDialog');
+        await _dio.download(
+          targetUrl,
+          destinationPath,
+          options: Options(
+            headers: const {'Cache-Control': 'no-cache', 'Pragma': 'no-cache', 'Expires': '0'},
+            receiveTimeout: const Duration(minutes: 15),
+            followRedirects: true,
+            maxRedirects: 5,
+          ),
+          onReceiveProgress: onProgress,
+          cancelToken: cancelToken,
+        );
+        return;
+      } catch (e) {
+        lastError = e;
+        if (cancelToken.isCancelled) return;
+        log('Candidate $targetUrl failed with $e, checking next candidate...', name: 'DownloadApkDialog');
+        final partial = File(destinationPath);
+        if (await partial.exists()) {
+          try {
+            await partial.delete();
+          } catch (_) {}
+        }
+      }
+    }
+    if (lastError != null) {
+      throw lastError;
+    }
   }
 
   void _updateProgress(int received, int total) {

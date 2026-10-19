@@ -183,7 +183,11 @@ class VersionUtil {
     final tag = 'v$cleanVer';
     final repoOwner = updateOwner;
     final repoName = updateRepository;
-    final baseDownloadUrl = 'https://github.com/$repoOwner/$repoName/releases/download/$tag';
+    final githubOriginOnly = SettingsService.to.app.useGitHubOriginForUpdates.v;
+    final rawBaseDownloadUrl = 'https://github.com/$repoOwner/$repoName/releases/download/$tag';
+    final baseDownloadUrl = githubOriginOnly
+        ? rawBaseDownloadUrl
+        : 'https://gh.lz1861.ccwu.cc/$rawBaseDownloadUrl';
 
     return [
       {
@@ -229,7 +233,11 @@ class VersionUtil {
 
     prerelease = selected['prerelease'] == true;
 
-    downloadUrl = selected['download_url']?.toString() ?? '';
+    final rawDownloadUrl = selected['download_url']?.toString() ?? '';
+    final originOnly = SettingsService.to.app.useGitHubOriginForUpdates.v;
+    downloadUrl = (!originOnly && rawDownloadUrl.isNotEmpty)
+        ? GitHubMirror.speedUpUrl(rawDownloadUrl)
+        : rawDownloadUrl;
 
     latestAndroidAbis = selectAndroidAbis(selected);
 

@@ -54,12 +54,34 @@ class GitHubMirror {
     });
   }
 
+  static String extractPureGithubUrl(String url) {
+    final clean = url.trim();
+    final index = clean.indexOf('https://github.com/');
+    if (index >= 0) {
+      return clean.substring(index);
+    }
+    final httpIndex = clean.indexOf('http://github.com/');
+    if (httpIndex >= 0) {
+      return clean.substring(httpIndex);
+    }
+    final rawIndex = clean.indexOf('https://raw.githubusercontent.com/');
+    if (rawIndex >= 0) {
+      return clean.substring(rawIndex);
+    }
+    return clean;
+  }
+
   static String speedUpUrl(String originalUrl) {
     final trimmed = originalUrl.trim();
     if (trimmed.isEmpty) return trimmed;
-    if (trimmed.startsWith('https://gh.lz1861.ccwu.cc/')) return trimmed;
-    if (trimmed.contains('github.com/') || trimmed.contains('githubusercontent.com/')) {
-      return 'https://gh.lz1861.ccwu.cc/$trimmed';
+    if (trimmed.startsWith('https://gh.lz1861.ccwu.cc/')) {
+      final sub = trimmed.substring('https://gh.lz1861.ccwu.cc/'.length);
+      final pure = extractPureGithubUrl(sub);
+      return 'https://gh.lz1861.ccwu.cc/$pure';
+    }
+    final pure = extractPureGithubUrl(trimmed);
+    if (pure.contains('github.com/') || pure.contains('githubusercontent.com/')) {
+      return 'https://gh.lz1861.ccwu.cc/$pure';
     }
     return trimmed;
   }
