@@ -182,13 +182,56 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
   File? _partialFile;
   File? _completedFile;
 
-  void _manualSwitchSource() {
-    _currentSourceCancelToken?.cancel('manual_switch');
+  List<Map<String, String>> _activeCandidateSources = [];
+  int _currentSourceIndex = 0;
+
+  void _switchToOfficialSource() {
+    final pureGithub = GitHubMirror.extractPureGithubUrl(widget.apkUrl);
+    final officialUrl = pureGithub.isNotEmpty ? pureGithub : widget.apkUrl;
+    if (mounted) {
+      setState(() {
+        _currentSourceLabel = '🌐 Git 官方源 (需VPN)';
+      });
+    }
+    _activeCandidateSources.insert(_currentSourceIndex + 1, {
+      'label': '🌐 Git 官方源 (需VPN)',
+      'url': officialUrl,
+    });
+    _currentSourceCancelToken?.cancel('switch_to_official');
+  }
+
+  void _switchToCfSource() {
+    final pureGithub = GitHubMirror.extractPureGithubUrl(widget.apkUrl);
+    final cfUrl = GitHubMirror.speedUpUrl(widget.apkUrl);
+    if (mounted) {
+      setState(() {
+        _currentSourceLabel = '⚡ CF 代理源 (国内免翻墙)';
+      });
+    }
+    _activeCandidateSources.insert(_currentSourceIndex + 1, {
+      'label': '⚡ CF 代理源 (国内免翻墙)',
+      'url': cfUrl,
+    });
+    if (pureGithub.contains('github.com/')) {
+      _activeCandidateSources.insert(_currentSourceIndex + 2, {
+        'label': '🚀 国内高速源 A',
+        'url': 'https://gh-proxy.com/$pureGithub',
+      });
+    }
+    _currentSourceCancelToken?.cancel('switch_to_cf');
   }
 
   @override
   void initState() {
     super.initState();
+
+    final initialUrl = widget.apkUrl.trim();
+    final bool isUserExplicitCf = initialUrl.contains('gh.lz1861.ccwu.cc') ||
+        initialUrl.contains('proxy') ||
+        initialUrl.contains('mirror') ||
+        initialUrl.contains('cdn');
+
+    _currentSourceLabel = isUserExplicitCf ? '⚡ CF 代理源 (国内免翻墙)' : '🌐 Git 官方源 (需VPN)';
 
     _resolvedFileName = safeDownloadFileName(widget.apkUrl, suggestedName: widget.fileName);
 
@@ -268,92 +311,60 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
     }
   }
 
-  Future<Map<String, String>?> _probeFastestSource(List<Map<String, String>> sources) async {
-    final completer = Completer<Map<String, String>?>();
-    int pending = sources.length;
-    for (final s in sources) {
-      _dio.head<void>(
-        s['url']!,
-        options: Options(
-          sendTimeout: const Duration(milliseconds: 1500),
-          receiveTimeout: const Duration(milliseconds: 1500),
-          headers: {'User-Agent': 'Mozilla/5.0 PureLivePro'},
-        ),
-      ).then((resp) {
-        if (!completer.isCompleted && (resp.statusCode == 200 || resp.statusCode == 206 || resp.statusCode == 302)) {
-          completer.complete(s);
-        }
-      }).catchError((_) {
-        // ignore probe error
-      }).whenComplete(() {
-        pending--;
-        if (pending <= 0 && !completer.isCompleted) {
-          completer.complete(null);
-        }
-      });
-    }
-    return completer.future.timeout(const Duration(milliseconds: 1600), onTimeout: () => null);
-  }
-
   Future<void> _defaultTransfer({
     required String url,
     required String destinationPath,
     required CancelToken cancelToken,
     required DownloadProgressCallback onProgress,
   }) async {
-    final bool useOriginOnly = SettingsService.to.app.useGitHubOriginForUpdates.v;
-    final String pureGithub = GitHubMirror.extractPureGithubUrl(url);
-    final bool isExplicitOfficial = useOriginOnly || (
-        !url.contains('gh.lz1861.ccwu.cc') &&
-        !url.contains('proxy') &&
-        !url.contains('mirror') &&
-        !url.contains('cdn') &&
-        url.contains('github.com/')
-    );
+    final String initialUrl = url.trim();
+    final String pureGithub = GitHubMirror.extractPureGithubUrl(initialUrl);
+
+    // 关键判定：用户是否显式选择了 CF 代理源
+    // 只要 URL 包含代理特征（gh.lz1861.ccwu.cc、proxy、mirror、cdn），无条件视为用户选择了 CF 代理源！
+    final bool isUserExplicitCf = initialUrl.contains('gh.lz1861.ccwu.cc') ||
+        initialUrl.contains('proxy') ||
+        initialUrl.contains('mirror') ||
+        initialUrl.contains('cdn');
 
     final List<Map<String, String>> candidateSources = [];
-    if (isExplicitOfficial) {
-      candidateSources.add({'label': '🌐 GitHub 官方源 (需VPN)', 'url': pureGithub.isNotEmpty ? pureGithub : url});
-      candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': GitHubMirror.speedUpUrl(url)});
+    if (isUserExplicitCf) {
+      // 100% 锁定用户所点击的 CF 代理直链为第 1 优先级
+      candidateSources.add({
+        'label': '⚡ CF 代理源 (国内免翻墙)',
+        'url': initialUrl,
+      });
+      // 备选源仅限免翻墙国内高速镜像，严禁加入需要翻墙的 GitHub 官方源！
       if (pureGithub.contains('github.com/')) {
-        candidateSources.add({'label': '🚀 国内高速源 A', 'url': 'https://gh-proxy.com/$pureGithub'});
-        candidateSources.add({'label': '🚀 腾讯 Edge 节点', 'url': 'https://edgeone.gh-proxy.org/$pureGithub'});
-      }
-    } else {
-      final cfUrl = GitHubMirror.speedUpUrl(url);
-      if (pureGithub.contains('github.com/')) {
-        candidateSources.add({'label': '🚀 国内高速源 (推荐)', 'url': 'https://gh-proxy.com/$pureGithub'});
-        candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': cfUrl});
-        candidateSources.add({'label': '🚀 腾讯 Edge 节点', 'url': 'https://edgeone.gh-proxy.org/$pureGithub'});
-        candidateSources.add({'label': '🚀 国内备用源 B', 'url': 'https://cdn.gh-proxy.org/$pureGithub'});
-        candidateSources.add({'label': '🌐 GitHub 官方源 (需VPN)', 'url': pureGithub});
-      } else {
-        candidateSources.add({'label': '⚡ Cloudflare 极速源', 'url': cfUrl});
-        candidateSources.add({'label': '默认源', 'url': url});
-      }
-    }
-
-    if (!isExplicitOfficial && candidateSources.length > 1) {
-      if (mounted) {
-        setState(() {
-          _currentSourceLabel = '正在优选极速节点...';
+        candidateSources.add({
+          'label': '🚀 国内高速源 A',
+          'url': 'https://gh-proxy.com/$pureGithub',
+        });
+        candidateSources.add({
+          'label': '🚀 腾讯 Edge 节点',
+          'url': 'https://edgeone.gh-proxy.org/$pureGithub',
+        });
+        candidateSources.add({
+          'label': '🚀 国内备用源 B',
+          'url': 'https://cdn.gh-proxy.org/$pureGithub',
         });
       }
-      try {
-        final fastest = await _probeFastestSource(candidateSources);
-        if (fastest != null) {
-          candidateSources.remove(fastest);
-          candidateSources.insert(0, fastest);
-        }
-      } catch (_) {}
+    } else {
+      // 用户显式点击了 Git 官方源
+      final officialUrl = pureGithub.isNotEmpty ? pureGithub : initialUrl;
+      candidateSources.add({
+        'label': '🌐 Git 官方源 (需VPN)',
+        'url': officialUrl,
+      });
     }
 
+    _activeCandidateSources = candidateSources;
     dynamic lastError;
-    int sourceIndex = 0;
+    _currentSourceIndex = 0;
 
-    while (sourceIndex < candidateSources.length) {
+    while (_currentSourceIndex < _activeCandidateSources.length) {
       if (cancelToken.isCancelled) return;
-      final source = candidateSources[sourceIndex];
+      final source = _activeCandidateSources[_currentSourceIndex];
       final targetUrl = source['url']!;
       final label = source['label']!;
 
@@ -372,7 +383,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
       cancelToken.whenCancel.then((_) => onGlobalCancel());
 
       try {
-        log('Attempting download from candidate ${sourceIndex + 1}/${candidateSources.length} ($label): $targetUrl', name: 'DownloadApkDialog');
+        log('Attempting download from candidate ${_currentSourceIndex + 1}/${_activeCandidateSources.length} ($label): $targetUrl', name: 'DownloadApkDialog');
 
         final targetFile = File(destinationPath);
         int existingBytes = 0;
@@ -417,7 +428,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
           }
           final checkNow = DateTime.now();
           if (checkNow.difference(lastDataReceivedTime).inMilliseconds >= 3000) {
-            if (sourceIndex + 1 < candidateSources.length) {
+            if (_currentSourceIndex + 1 < _activeCandidateSources.length) {
               log('Watchdog: Download stalled for 3.0s with no chunks from $label, auto-switching...', name: 'DownloadApkDialog');
               timer.cancel();
               sourceCancel.cancel('auto_switch_stalled');
@@ -425,7 +436,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
           }
           final totalSec = checkNow.difference(downloadStartTime).inSeconds;
           if (totalSec >= 3 && currentSpeedBytesPerSec < 450 * 1024 && totalBytes > 10 * 1024 * 1024) {
-            if (receivedBytes < totalBytes * 0.85 && sourceIndex + 1 < candidateSources.length) {
+            if (receivedBytes < totalBytes * 0.85 && _currentSourceIndex + 1 < _activeCandidateSources.length) {
               log('Watchdog: Speed too low (${(currentSpeedBytesPerSec / 1024).toStringAsFixed(0)} KB/s), auto-switching...', name: 'DownloadApkDialog');
               timer.cancel();
               sourceCancel.cancel('auto_switch_low_speed');
@@ -471,7 +482,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         if (cancelToken.isCancelled) return;
 
         if (sourceCancel.isCancelled) {
-          sourceIndex++;
+          _currentSourceIndex++;
           continue;
         }
 
@@ -487,7 +498,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         if (cancelToken.isCancelled) return;
         log('Candidate $label failed with $e, switching to next...', name: 'DownloadApkDialog');
       }
-      sourceIndex++;
+      _currentSourceIndex++;
     }
 
     if (lastError != null) {
@@ -864,11 +875,11 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         children: [
           TextButton.icon(
             key: const ValueKey('download-switch-source'),
-            onPressed: _manualSwitchSource,
-            icon: Icon(isCurrentlyOfficial ? Icons.bolt_rounded : Icons.swap_horiz_rounded, size: 16),
+            onPressed: isCurrentlyOfficial ? _switchToCfSource : _switchToOfficialSource,
+            icon: Icon(isCurrentlyOfficial ? Icons.bolt_rounded : Icons.public_rounded, size: 16),
             label: Text(
-              isCurrentlyOfficial ? '⚡ 切极速通道' : '🌐 切官方/备用',
-              style: AppTextStyles.t12,
+              isCurrentlyOfficial ? '⚡ 切 CF 代理源' : '🌐 切 Git 官方源',
+              style: AppTextStyles.t12.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           TextButton(

@@ -59,7 +59,7 @@ class VersionPage extends GetView<VersionController> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      '国内网络请直接点击【⚡ 极速源 (推荐)】下载，内置 Cloudflare 边缘加速，满速免翻墙。',
+                      '国内网络请直接点击【⚡ CF 代理源】下载，满速免翻墙；已开启科学上网请点击【🌐 Git 官方源】。',
                       style: AppTextStyles.t12.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w600,

@@ -1,23 +1,23 @@
 {
-  "version": "3.4.4",
-  "build_number": 4144,
-  "version_num": 304034144,
+  "version": "3.4.5",
+  "build_number": 4145,
+  "version_num": 304034145,
   "android_abis": [
     "arm64-v8a",
     "armeabi-v7a",
     "x86_64"
   ],
-  "version_desc": "### 🚀 v3.4.4 核心更新内容：\n- 🎨【更新界面全新改版】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】专属下载按钮，界面清爽一目了然\n- 📲【下载完成自动拉起安装】：点击任意源下载完成后直接自动弹出系统安装器，一键无缝顺畅升级，告别繁琐确认\n- ⚡【双通道下载全面提速】：国内网络通过 Cloudflare 边缘代理极速免翻墙，科学上网环境通过官方源直下\n- 🔗【项目主页彻底修正】：全面修正项目主页为官方主仓库 `liwoniu-luzi/lzvideo`\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+  "version_desc": "### 🚀 v3.4.5 核心更新内容：\n- 🎯【彻底锁定下载通道】：修复点击【⚡ CF 代理源】后下载器擅自切回官方源的问题，100% 忠实锁定用户所选源直连满速拉取，绝不再需手动切通道\n- 🔄【弹窗支持一键双向热切】：下载中支持随时在【🌐 Git 官方源】与【⚡ CF 代理源】之间一键无缝热切换，断点续传不丢进度\n- 🎨【更新界面纯净直观】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】独立按钮\n- 📲【下载完成自动拉起安装】：下载完成后直接自动唤起系统安装器，一键无缝顺畅升级\n- 🔗【主页与仓库彻底对齐】：项目主页指向主仓库 `liwoniu-luzi/lzvideo`\n- 🎥【录屏合并彻底根除报错】：三级自愈级联引擎保障 5 分钟录屏 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
   "prerelease": false,
-  "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.4/PureLive-3.4.4-android-arm64-v8a.apk",
+  "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.5/PureLive-3.4.5-android-arm64-v8a.apk",
   "platforms": {
     "android": {
-      "version": "3.4.4",
-      "build_number": 4144,
-      "version_num": 304034144,
-      "version_desc": "### 🚀 v3.4.4 核心更新内容：\n- 🎨【更新界面全新改版】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】专属下载按钮，界面清爽一目了然\n- 📲【下载完成自动拉起安装】：点击任意源下载完成后直接自动弹出系统安装器，一键无缝顺畅升级，告别繁琐确认\n- ⚡【双通道下载全面提速】：国内网络通过 Cloudflare 边缘代理极速免翻墙，科学上网环境通过官方源直下\n- 🔗【项目主页彻底修正】：全面修正项目主页为官方主仓库 `liwoniu-luzi/lzvideo`\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+      "version": "3.4.5",
+      "build_number": 4145,
+      "version_num": 304034145,
+      "version_desc": "### 🚀 v3.4.5 核心更新内容：\n- 🎯【彻底锁定下载通道】：修复点击【⚡ CF 代理源】后下载器擅自切回官方源的问题，100% 忠实锁定用户所选源直连满速拉取，绝不再需手动切通道\n- 🔄【弹窗支持一键双向热切】：下载中支持随时在【🌐 Git 官方源】与【⚡ CF 代理源】之间一键无缝热切换，断点续传不丢进度\n- 🎨【更新界面纯净直观】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】独立按钮\n- 📲【下载完成自动拉起安装】：下载完成后直接自动唤起系统安装器，一键无缝顺畅升级\n- 🔗【主页与仓库彻底对齐】：项目主页指向主仓库 `liwoniu-luzi/lzvideo`\n- 🎥【录屏合并彻底根除报错】：三级自愈级联引擎保障 5 分钟录屏 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
       "prerelease": false,
-      "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.4/PureLive-3.4.4-android-arm64-v8a.apk",
+      "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.5/PureLive-3.4.5-android-arm64-v8a.apk",
       "android_abis": [
         "arm64-v8a",
         "armeabi-v7a",
@@ -25,12 +25,12 @@
       ]
     },
     "windows": {
-      "version": "3.4.4",
-      "build_number": 4144,
-      "version_num": 304034144,
-      "version_desc": "### 🚀 v3.4.4 核心更新内容：\n- 🎨 更新源界面全新改版，下载完成后自动调用安装\n- ⚡ 国内与官方双通道下载全面提速",
+      "version": "3.4.5",
+      "build_number": 4145,
+      "version_num": 304034145,
+      "version_desc": "### 🚀 v3.4.5 核心更新内容：\n- 🎯 彻底锁定用户选择的下载源通道\n- 🔄 支持一键双向热切换源通道",
       "prerelease": false,
-      "download_url": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.4",
+      "download_url": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.5",
       "windows_msix_available": true
     }
   }

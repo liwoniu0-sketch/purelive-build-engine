@@ -1,4 +1,35 @@
-﻿[
+[
+    {
+        "version":  "3.4.5",
+        "title":  "v3.4.5 (下载通道强锁定与双向一键热切换修复版)",
+        "date":  "2026-10-19",
+        "github":  "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.5",
+        "author":  {
+                       "name":  "liwoniu-luzi",
+                       "profile":  "https://github.com/liwoniu-luzi"
+                   },
+        "changelog":  "# Pure Live v3.4.5 (下载通道强锁定与双向一键热切换修复版)\n\n### 🚀 v3.4.5 核心更新内容：\n- 🎯【彻底锁定下载通道】：修复点击【⚡ CF 代理源】后下载器擅自切回官方源的问题，100% 忠实锁定用户所选源直连满速拉取，绝不再需手动切通道\n- 🔄【弹窗支持一键双向热切】：下载中支持随时在【🌐 Git 官方源】与【⚡ CF 代理源】之间一键无缝热切换，断点续传不丢进度\n- 🎨【更新界面纯净直观】：按设备架构（arm64 / arm32 / x86_64）清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】专属下载按钮，界面清爽一目了然\n- 📲【下载完成自动拉起安装】：点击任意源下载完成后直接自动弹出系统安装器，一键无缝顺畅升级，彻底告别繁琐确认\n- 🔗【项目主页彻底修正】：全面修正项目主页为官方主仓库 liwoniu-luzi/lzvideo\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+        "files":  [
+                      {
+                          "name":  "PureLive-3.4.5-android-arm64-v8a.apk",
+                          "size":  "138.0mb",
+                          "downloads":  0,
+                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.5/PureLive-3.4.5-android-arm64-v8a.apk"
+                      },
+                      {
+                          "name":  "PureLive-3.4.5-android-armeabi-v7a.apk",
+                          "size":  "134.0mb",
+                          "downloads":  0,
+                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.5/PureLive-3.4.5-android-armeabi-v7a.apk"
+                      },
+                      {
+                          "name":  "PureLive-3.4.5-android-x86_64.apk",
+                          "size":  "142.0mb",
+                          "downloads":  0,
+                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.5/PureLive-3.4.5-android-x86_64.apk"
+                      }
+                  ]
+    },
     {
         "version":  "3.4.4",
         "title":  "v3.4.4 (架构卡片双源直下与下载即装全新体验版)",
