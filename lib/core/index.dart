@@ -29,3 +29,5 @@ export 'widgets/widget_extensions.dart';
 export 'widgets/scrollable_tab_bar.dart';
 export 'package:pure_live/core/storage/hive_rx.dart';
 export 'package:pure_live/core/pagination/index.dart';
+export 'release/github_mirror.dart';
+export 'release/version_util.dart';

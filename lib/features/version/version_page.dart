@@ -1,9 +1,10 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:pure_live/core/index.dart';
+import 'package:pure_live/core/release/github_mirror.dart';
 import 'package:pure_live/features/version/app_update_flow.dart';
 import 'package:markdown_widget/widget/all.dart';
 import 'package:markdown_widget/config/configs.dart';
