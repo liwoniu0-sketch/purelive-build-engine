@@ -1,23 +1,23 @@
 {
-  "version": "3.4.3",
-  "build_number": 4143,
-  "version_num": 304034143,
+  "version": "3.4.4",
+  "build_number": 4144,
+  "version_num": 304034144,
   "android_abis": [
     "arm64-v8a",
     "armeabi-v7a",
     "x86_64"
   ],
-  "version_desc": "### ⚡【国内免翻墙极速下载 (Cloudflare 智能重定向 CDN 满速直链)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.3-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.3-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.3-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-x86_64.apk)\n\n### 🌐【GitHub 官方原版下载 (需挂代理 / VPN)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.3-android-arm64-v8a.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.3-android-armeabi-v7a.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.3-android-x86_64.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-x86_64.apk)\n\n### 🚀 v3.4.3 核心更新内容：\n- 🔗【项目主页全面跟随修正】：彻底修正“关于”页面与底层所有环境配置中的项目主页为官方主仓库 `liwoniu-luzi/lzvideo`，告别404失效页面\n- ⚡【国内免翻墙满速突破】：Cloudflare 自定义域名边缘部署智能重定向加速，国内直连无需开启 VPN 即可跑满家庭与移动宽带极速下载\n- ⏱️【3秒智能看门狗自愈切源】：下载器内置独立 Timer 速度与停滞看门狗，凡遇低速（<450KB/s）或卡顿超过 3 秒，毫秒级自动切换国内满速节点，断点续传不丢进度\n- 🌟【双通道自主随心选择】：支持【⚡ 国内极速更新(免翻墙)】与【🌐 官方源(需VPN)】双通道更新\n- 🎥【录屏合并彻底根除报错】：修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+  "version_desc": "### 🚀 v3.4.4 核心更新内容：\n- 🎨【更新界面全新改版】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】专属下载按钮，界面清爽一目了然\n- 📲【下载完成自动拉起安装】：点击任意源下载完成后直接自动弹出系统安装器，一键无缝顺畅升级，告别繁琐确认\n- ⚡【双通道下载全面提速】：国内网络通过 Cloudflare 边缘代理极速免翻墙，科学上网环境通过官方源直下\n- 🔗【项目主页彻底修正】：全面修正项目主页为官方主仓库 `liwoniu-luzi/lzvideo`\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
   "prerelease": false,
-  "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk",
+  "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.4/PureLive-3.4.4-android-arm64-v8a.apk",
   "platforms": {
     "android": {
-      "version": "3.4.3",
-      "build_number": 4143,
-      "version_num": 304034143,
-      "version_desc": "### ⚡【国内免翻墙极速下载 (Cloudflare 智能重定向 CDN 满速直链)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.3-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.3-android-armeabi-v7a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.3-android-x86_64.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-x86_64.apk)\n\n### 🌐【GitHub 官方原版下载 (需挂代理 / VPN)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.3-android-arm64-v8a.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk)\n- 📱 **老旧安卓机型 (armeabi-v7a 32位)**: [PureLive-3.4.3-android-armeabi-v7a.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-armeabi-v7a.apk)\n- 💻 **电脑模拟器 (x86_64)**: [PureLive-3.4.3-android-x86_64.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-x86_64.apk)\n\n### 🚀 v3.4.3 核心更新内容：\n- 🔗【项目主页全面跟随修正】：彻底修正“关于”页面与底层所有环境配置中的项目主页为官方主仓库 `liwoniu-luzi/lzvideo`，告别404失效页面\n- ⚡【国内免翻墙满速突破】：Cloudflare 自定义域名边缘部署智能重定向加速，国内直连无需开启 VPN 即可跑满家庭与移动宽带极速下载\n- ⏱️【3秒智能看门狗自愈切源】：下载器内置独立 Timer 速度与停滞看门狗，凡遇低速（<450KB/s）或卡顿超过 3 秒，毫秒级自动切换国内满速节点，断点续传不丢进度\n- 🌟【双通道自主随心选择】：支持【⚡ 国内极速更新(免翻墙)】与【🌐 官方源(需VPN)】双通道更新\n- 🎥【录屏合并彻底根除报错】：修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+      "version": "3.4.4",
+      "build_number": 4144,
+      "version_num": 304034144,
+      "version_desc": "### 🚀 v3.4.4 核心更新内容：\n- 🎨【更新界面全新改版】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】专属下载按钮，界面清爽一目了然\n- 📲【下载完成自动拉起安装】：点击任意源下载完成后直接自动弹出系统安装器，一键无缝顺畅升级，告别繁琐确认\n- ⚡【双通道下载全面提速】：国内网络通过 Cloudflare 边缘代理极速免翻墙，科学上网环境通过官方源直下\n- 🔗【项目主页彻底修正】：全面修正项目主页为官方主仓库 `liwoniu-luzi/lzvideo`\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
       "prerelease": false,
-      "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk",
+      "download_url": "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.4/PureLive-3.4.4-android-arm64-v8a.apk",
       "android_abis": [
         "arm64-v8a",
         "armeabi-v7a",
@@ -25,12 +25,12 @@
       ]
     },
     "windows": {
-      "version": "3.4.3",
-      "build_number": 4143,
-      "version_num": 304034143,
-      "version_desc": "### ⚡【国内免翻墙极速下载 (Cloudflare 智能重定向 CDN 满速直链)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.3-android-arm64-v8a.apk](https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk)\n\n### 🌐【GitHub 官方原版下载 (需挂代理 / VPN)】：\n- 📱 **主流安卓手机 (arm64-v8a 推荐)**: [PureLive-3.4.3-android-arm64-v8a.apk (官方原版)](https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.3/PureLive-3.4.3-android-arm64-v8a.apk)\n\n### 🚀 v3.4.3 核心更新内容：\n- 🌟 全面强化国内网络更新体验与项目主页修正",
+      "version": "3.4.4",
+      "build_number": 4144,
+      "version_num": 304034144,
+      "version_desc": "### 🚀 v3.4.4 核心更新内容：\n- 🎨 更新源界面全新改版，下载完成后自动调用安装\n- ⚡ 国内与官方双通道下载全面提速",
       "prerelease": false,
-      "download_url": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.3",
+      "download_url": "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.4",
       "windows_msix_available": true
     }
   }

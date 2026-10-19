@@ -254,6 +254,9 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         _downloadCompleted = true;
         _statusText = i18n('download_complete');
       });
+
+      // 🌟 下载完成后立即自动拉起系统安装器，直接跳转安装更新
+      await _openCompletedFile();
     } catch (error) {
       await _deleteIfPresent(partialFile);
 

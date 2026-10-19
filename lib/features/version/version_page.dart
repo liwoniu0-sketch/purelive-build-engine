@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -295,236 +295,106 @@ class VersionPage extends GetView<VersionController> {
   }
 
   Widget _buildDownloadSection(BuildContext context, {required String title, required String urls}) {
-    final githubOriginOnly = SettingsService.to.app.useGitHubOriginForUpdates.v;
-    final mirrorUrls = getMirrorUrls(
-      urls,
-      githubOriginOnly: githubOriginOnly,
-    ).where((url) => versionDownloadUri(url) != null).toList(growable: false);
-
-    if (mirrorUrls.isEmpty) {
+    final String rawUrl = urls.trim();
+    if (rawUrl.isEmpty) {
       return const SizedBox.shrink();
     }
+
+    final String pureGithub = GitHubMirror.extractPureGithubUrl(rawUrl);
+    final String officialUrl = pureGithub.isNotEmpty ? pureGithub : rawUrl;
+    final String cfUrl = GitHubMirror.speedUpUrl(officialUrl);
 
     final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: AppTextStyles.t13.copyWith(
-            fontWeight: FontWeight.w600,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
-          ),
-        ),
-        const SizedBox(height: 10),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final double maxWidth = constraints.maxWidth;
-            final textScale = MediaQuery.textScalerOf(context).scale(1);
-            int maxColumns = 2;
-            if (PlatformUtils.isDesktop && textScale <= 1.5) {
-              maxColumns = maxWidth > 800 ? 4 : (maxWidth > 500 ? 3 : 2);
-            }
-
-            const double spacing = 8.0;
-            final double buttonWidth = (maxWidth - spacing * (maxColumns - 1)) / maxColumns;
-
-            return Wrap(
-              spacing: spacing,
-              runSpacing: spacing,
-              children: [
-                for (int i = 0; i < mirrorUrls.length; i++)
-                  SizedBox(
-                    width: buttonWidth,
-                    child: Tooltip(
-                      message: mirrorUrls[i],
-                      waitDuration: const Duration(milliseconds: 300),
-                      child: OutlinedButton.icon(
-                        key: ValueKey('version-source-$title-$i'),
-                        style:
-                            OutlinedButton.styleFrom(
-                              backgroundColor: theme.colorScheme.surfaceContainerLow,
-                              foregroundColor: theme.colorScheme.onSurfaceVariant,
-                              minimumSize: const Size(0, kMinInteractiveDimension),
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              // Subtle border matching your design specs
-                              side: BorderSide(color: theme.dividerColor.withValues(alpha: 0.08), width: 1),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            ).copyWith(
-                              backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return theme.colorScheme.primary.withValues(alpha: 0.15);
-                                }
-                                if (states.contains(WidgetState.hovered)) {
-                                  return theme.colorScheme.primary.withValues(alpha: 0.08);
-                                }
-                                return theme.colorScheme.surfaceContainerLow;
-                              }),
-                              foregroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
-                                if (states.contains(WidgetState.hovered) || states.contains(WidgetState.pressed)) {
-                                  return theme.colorScheme.primary;
-                                }
-                                return theme.colorScheme.onSurfaceVariant;
-                              }),
-                              side: WidgetStateProperty.resolveWith<BorderSide?>((states) {
-                                if (states.contains(WidgetState.hovered) || states.contains(WidgetState.pressed)) {
-                                  return BorderSide(color: theme.colorScheme.primary.withValues(alpha: 0.3), width: 1);
-                                }
-                                return BorderSide(color: theme.dividerColor.withValues(alpha: 0.08), width: 1);
-                              }),
-                            ),
-                        onPressed: controller.downloadPending.value
-                            ? null
-                            : () => _showActionDialog(context, title, mirrorUrls[i], i + 1),
-                        icon: Icon(
-                          mirrorUrls[i].contains('gh.lz1861.ccwu.cc')
-                              ? Remix.flashlight_fill
-                              : (!mirrorUrls[i].contains('gh') && !mirrorUrls[i].contains('proxy') && mirrorUrls[i].contains('github.com'))
-                                  ? Remix.global_line
-                                  : Remix.link_m,
-                          size: 15,
-                        ),
-                        label: Text(
-                          mirrorUrls[i].contains('gh.lz1861.ccwu.cc')
-                              ? '⚡ 国内极速源 (CF免翻墙)'
-                              : (!mirrorUrls[i].contains('gh') && !mirrorUrls[i].contains('proxy') && mirrorUrls[i].contains('github.com'))
-                                  ? '🌐 GitHub 官方源 (需VPN)'
-                                  : mirrorUrls[i].contains('gh-proxy.com')
-                                      ? '🚀 国内高速源 A'
-                                      : mirrorUrls[i].contains('cdn.gh-proxy.org')
-                                          ? '🚀 国内高速源 B'
-                                          : mirrorUrls[i].contains('edgeone')
-                                              ? '🚀 腾讯 Edge 节点'
-                                              : '备用通道 ${i + 1}',
-                          style: AppTextStyles.t12.copyWith(fontWeight: FontWeight.w600),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  Future<void> _showActionDialog(
-    BuildContext pageContext,
-    String platformName,
-    String targetUrl,
-    int sourceIndex,
-  ) async {
-    final theme = Theme.of(pageContext);
-    await showDialog<void>(
-      context: pageContext,
-      builder: (dialogContext) {
-        return AlertDialog(
-          scrollable: true,
-          insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          backgroundColor: theme.colorScheme.surfaceContainerHigh,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          titlePadding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 12),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-          actionsPadding: const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 8),
-          title: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(Remix.download_cloud_2_line, color: theme.colorScheme.primary, size: 20),
+        Row(
+          children: [
+            Container(
+              width: 3.5,
+              height: 14,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(2),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(platformName, style: AppTextStyles.t15.copyWith(fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 2),
-                    Text(
-                      targetUrl.contains('gh.lz1861.ccwu.cc')
-                          ? '⚡ Cloudflare 极速下载源 (国内免翻墙)'
-                          : (!targetUrl.contains('gh') && !targetUrl.contains('proxy') && targetUrl.contains('github.com'))
-                              ? '🌐 GitHub 官方直链源'
-                              : i18n("download_source", args: {"num": "$sourceIndex"}),
-                      style: AppTextStyles.t11.copyWith(color: theme.hintColor),
-                    ),
-                  ],
-                ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: AppTextStyles.t13.copyWith(
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.onSurface,
               ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: theme.dividerColor.withValues(alpha: 0.05)),
-                ),
-                child: SelectableText(
-                  targetUrl,
-                  style: AppTextStyles.t11.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                ),
-              ),
-              const SizedBox(height: 8),
-              FilledButton.icon(
-                key: const ValueKey('version-source-download'),
-                onPressed: () {
-                  Navigator.of(dialogContext).pop();
-                  _startDownload(pageContext, targetUrl);
-                },
-                icon: const Icon(Remix.download_2_line, size: 20),
-                label: Text(i18n('download'), textAlign: TextAlign.center),
-              ),
-              const SizedBox(height: 8),
-              OutlinedButton.icon(
-                key: const ValueKey('version-source-copy'),
-                onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: targetUrl));
-                  if (!dialogContext.mounted) return;
-                  Navigator.of(dialogContext).pop();
-                  if (pageContext.mounted) _showMessage(pageContext, 'copied_to_clipboard');
-                },
-                icon: const Icon(Remix.clipboard_line, size: 20),
-                label: Text(i18n('copy_link'), textAlign: TextAlign.center),
-              ),
-              const SizedBox(height: 8),
-              TextButton.icon(
-                key: const ValueKey('version-source-browser'),
-                onPressed: () async {
-                  Navigator.of(dialogContext).pop();
-                  final uri = Uri.tryParse(targetUrl);
-                  if (uri != null) {
-                    await launchUrl(uri, mode: LaunchMode.externalApplication);
-                  }
-                },
-                icon: const Icon(Remix.external_link_line, size: 20),
-                label: const Text('系统浏览器直接打开', textAlign: TextAlign.center),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              key: const ValueKey('version-source-cancel'),
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(i18n('cancel')),
             ),
           ],
-        );
-      },
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            // 🌐 Git 官方源 (需VPN)
+            Expanded(
+              child: Tooltip(
+                message: '从 GitHub 官方原站下载（需开启 VPN/科学上网）\n长按可复制链接',
+                child: OutlinedButton.icon(
+                  key: ValueKey('version-source-$title-git'),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.surfaceContainerLow,
+                    foregroundColor: theme.colorScheme.onSurface,
+                    minimumSize: const Size(0, 44),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    side: BorderSide(color: theme.dividerColor.withValues(alpha: 0.15)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  onPressed: controller.downloadPending.value
+                      ? null
+                      : () => _startDownload(context, officialUrl),
+                  onLongPress: () async {
+                    await Clipboard.setData(ClipboardData(text: officialUrl));
+                    if (context.mounted) _showMessage(context, 'copied_to_clipboard');
+                  },
+                  icon: const Icon(Remix.global_line, size: 16),
+                  label: const Text(
+                    '🌐 Git 官方源',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            // ⚡ CF 代理源 (免翻墙极速)
+            Expanded(
+              child: Tooltip(
+                message: '通过 Cloudflare 边缘代理加速下载（国内免翻墙）\n长按可复制链接',
+                child: FilledButton.icon(
+                  key: ValueKey('version-source-$title-cf'),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(0, 44),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  onPressed: controller.downloadPending.value
+                      ? null
+                      : () => _startDownload(context, cfUrl),
+                  onLongPress: () async {
+                    await Clipboard.setData(ClipboardData(text: cfUrl));
+                    if (context.mounted) _showMessage(context, 'copied_to_clipboard');
+                  },
+                  icon: const Icon(Remix.flashlight_fill, size: 16),
+                  label: const Text(
+                    '⚡ CF 代理源',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
