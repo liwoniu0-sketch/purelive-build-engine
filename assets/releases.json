@@ -3,30 +3,30 @@
         "version":  "3.4.6",
         "title":  "v3.4.6 (界面切换顶部按钮消失修复与移动端全场景常驻版)",
         "date":  "2026-10-24",
-        "github":  "https://github.com/liwoniu-luzi/lzvideo/releases/tag/v3.4.6",
+        "github":  "https://github.com/liwoniu0-sketch/purelive-build-engine/releases/tag/v3.4.6",
         "author":  {
-                       "name":  "liwoniu-luzi",
-                       "profile":  "https://github.com/liwoniu-luzi"
+                       "name":  "liwoniu0-sketch",
+                       "profile":  "https://github.com/liwoniu0-sketch"
                    },
-        "changelog":  "# Pure Live v3.4.6 (界面切换顶部按钮消失修复与移动端全场景常驻版)\n\n### 🚀 v3.4.6 核心更新内容：\n- 🛠️【彻底修复左上/右上按钮消失】：重构手机与平板响应式判定，根治全屏横屏退出或多任务返回时左上角菜单与右上角搜索按钮偶尔隐匿失效的顽疾，移动端全场景常驻保活\n- 🎯【彻底锁定下载通道】：点击【⚡ CF 代理源】100% 锁定免翻墙极速直连拉取，绝不回退官方源；点击【🌐 Git 官方源】直接拉取官方原站\n- 🔄【弹窗支持一键双向热切】：下载过程中支持随时在【🌐 Git 官方源】与【⚡ CF 代理源】之间无缝一键热切，保留进度不丢数据\n- 🎨【更新界面纯净直观】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】专属下载按钮，界面清爽一目了然\n- 📲【下载完成自动拉起安装】：点击任意源下载完成后直接自动弹出系统安装器，一键无缝顺畅升级，彻底告别繁琐确认\n- 🔗【项目主页彻底修正】：全面修正项目主页为官方主仓库 liwoniu-luzi/lzvideo\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
+        "changelog":  "# Pure Live v3.4.6 (界面切换顶部按钮消失修复与移动端全场景常驻版)\n\n### 🚀 v3.4.6 核心更新内容：\n- 🛠️【彻底修复左上/右上按钮消失】：重构手机与平板响应式判定，根治全屏横屏退出或多任务返回时左上角菜单与右上角搜索按钮偶尔隐匿失效的顽疾，移动端全场景常驻保活\n- 🎯【彻底锁定下载通道】：点击【⚡ CF 代理源】100% 锁定免翻墙极速直连拉取，绝不回退官方源；点击【🌐 Git 官方源】直接拉取官方原站\n- 🔄【弹窗支持一键双向热切】：下载过程中支持随时在【🌐 Git 官方源】与【⚡ CF 代理源】之间无缝一键热切，保留进度不丢数据\n- 🎨【更新界面纯净直观】：按设备架构清晰呈现【🌐 Git 官方源】与【⚡ CF 代理源】专属下载按钮，界面清爽一目了然\n- 📲【下载完成自动拉起安装】：点击任意源下载完成后直接自动弹出系统安装器，一键无缝顺畅升级，彻底告别繁琐确认\n- 🔗【项目主页彻底修正】：全面修正项目主页为官方主仓库 liwoniu0-sketch/purelive-build-engine\n- 🎥【录屏合并彻底根除报错】：彻底修复 5 分钟录屏分段合并失败，三级自愈级联引擎保障 100% 合并成功\n- 📱 完美支持与原版 3.1.19 并存双开、互不干扰\n- 🔒 严格强制固化专属 Release 签名门禁 (SHA256: dd063e79f905509e3e6d24f2703ec30f361a795f3006ab7f6083d05c936dc979)",
         "files":  [
                       {
                           "name":  "PureLive-3.4.6-android-arm64-v8a.apk",
                           "size":  "138.0mb",
                           "downloads":  0,
-                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.6/PureLive-3.4.6-android-arm64-v8a.apk"
+                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu0-sketch/purelive-build-engine/releases/download/v3.4.6/PureLive-3.4.6-android-arm64-v8a.apk"
                       },
                       {
                           "name":  "PureLive-3.4.6-android-armeabi-v7a.apk",
                           "size":  "134.0mb",
                           "downloads":  0,
-                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.6/PureLive-3.4.6-android-armeabi-v7a.apk"
+                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu0-sketch/purelive-build-engine/releases/download/v3.4.6/PureLive-3.4.6-android-armeabi-v7a.apk"
                       },
                       {
                           "name":  "PureLive-3.4.6-android-x86_64.apk",
                           "size":  "142.0mb",
                           "downloads":  0,
-                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu-luzi/lzvideo/releases/download/v3.4.6/PureLive-3.4.6-android-x86_64.apk"
+                          "url":  "https://gh.lz1861.ccwu.cc/https://github.com/liwoniu0-sketch/purelive-build-engine/releases/download/v3.4.6/PureLive-3.4.6-android-x86_64.apk"
                       }
                   ]
     },

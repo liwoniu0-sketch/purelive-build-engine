@@ -46,7 +46,7 @@ async function handleRequest(request, ctx) {
   // 3. /api/version - 边缘极速直出最新版本元数据 (0ms延迟)
   if (pathname === '/api/version') {
     const rawVersionUrl = `https://raw.githubusercontent.com/${DEFAULT_OWNER}/${DEFAULT_REPO}/master/assets/version.json`;
-    return handleProxy(request, rawVersionUrl, true);
+    return handleProxy(request, rawVersionUrl, true, FALLBACK_VERSION);
   }
 
   // 4. /api/releases - 边缘极速直出全部历史发布记录
