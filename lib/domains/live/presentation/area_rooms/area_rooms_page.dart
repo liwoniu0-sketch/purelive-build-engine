@@ -207,7 +207,7 @@ class _FavoriteAreaFloatingButtonState extends State<FavoriteAreaFloatingButton>
 
       return Padding(
         padding: EdgeInsets.only(
-          bottom: Get.width > 680
+          bottom: PlatformUtils.isTabletLayout(context)
               ? 24
               : (MediaQuery.paddingOf(context).bottom > 0 ? MediaQuery.paddingOf(context).bottom : 12),
           right: 0,
@@ -263,7 +263,7 @@ class _FavoriteAreaFloatingButtonState extends State<FavoriteAreaFloatingButton>
                                       ),
                                       const SizedBox(height: 1),
                                       ConstrainedBox(
-                                        constraints: BoxConstraints(maxWidth: Get.width > 680 ? 120 : 80),
+                                        constraints: BoxConstraints(maxWidth: PlatformUtils.isTabletLayout(context) ? 120 : 80),
                                         child: Text(
                                           displayName,
                                           maxLines: 1,

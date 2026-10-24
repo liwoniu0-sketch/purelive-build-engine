@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
         return;
       }
       List<String> value = List<String>.from(v as List);
-      final bool isTablet = Get.width > 680;
+      final bool isTablet = !PlatformUtils.isMobile && Get.width > 680;
       if (isTablet) {
         value = value.where((id) => id != HomeMenu.record.id).toList();
       }
@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
 
   void _syncInitialIndex() {
     List<String> activeIds = SettingsService.to.app.savedMenuIds.v;
-    final bool isTablet = Get.width > 680;
+    final bool isTablet = !PlatformUtils.isMobile && Get.width > 680;
     if (isTablet) {
       activeIds = activeIds.where((id) => id != HomeMenu.record.id).toList();
     }
@@ -240,7 +240,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin,
       onPopInvokedWithResult: onBackButtonPressed,
       child: LayoutBuilder(
         builder: (context, constraint) {
-          final bool isTablet = constraint.maxWidth > 680;
+          final bool isTablet = PlatformUtils.isTabletLayout(context);
 
           return Obx(() {
             final activeMenuIds = List<String>.from(SettingsService.to.app.savedMenuIds.v);

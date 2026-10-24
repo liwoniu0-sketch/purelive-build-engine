@@ -18,7 +18,7 @@ class AreasPage extends GetView<AreasController> {
           final availableSitesList = Sites().availableSites();
           if (availableSitesList.isEmpty) return const Scaffold();
 
-          bool showAction = Get.width <= 680;
+          final bool showAction = PlatformUtils.shouldShowAppBarActions(context);
 
           return Scaffold(
             appBar: AppBar(
@@ -43,7 +43,7 @@ class AreasPage extends GetView<AreasController> {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: Padding(
-              padding: EdgeInsets.only(bottom: Get.width > 680 ? 24 : 0, right: 0),
+              padding: EdgeInsets.only(bottom: PlatformUtils.isTabletLayout(context) ? 24 : 0, right: 0),
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),

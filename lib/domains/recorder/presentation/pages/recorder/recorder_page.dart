@@ -27,7 +27,7 @@ class RecorderPage extends GetView<RecorderController> {
 
   @override
   Widget build(BuildContext context) {
-    bool showAction = Get.width <= 680;
+    final bool showAction = PlatformUtils.shouldShowAppBarActions(context);
 
     final bool canGoBack = Navigator.of(context).canPop();
     return DefaultTabController(

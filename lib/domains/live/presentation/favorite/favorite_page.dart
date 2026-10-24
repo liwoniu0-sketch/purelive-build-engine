@@ -17,7 +17,7 @@ class FavoritePage extends GetView<FavoriteController> {
     return LayoutBuilder(
       builder: (context, constraint) {
         return Obx(() {
-          bool showAction = Get.width <= 680;
+          final bool showAction = PlatformUtils.shouldShowAppBarActions(context);
           final availableSitesList = controller.availableFavoriteSites;
           final siteKey = ValueKey(availableSitesList.map((e) => e.id).join('|'));
 

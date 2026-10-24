@@ -114,7 +114,7 @@ class ThemeSettingsPage extends GetView<SettingsService> {
               onTap: () => showMainAxisSpacingDialog(context),
             ),
           ]),
-          if (Get.width > 680) ...[
+          if (PlatformUtils.isTabletLayout(context)) ...[
             const SizedBox(height: 20),
             context.buildGroupTitle(i18n("page_settings")),
             context.buildModernCard([

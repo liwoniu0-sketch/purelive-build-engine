@@ -13,7 +13,7 @@ class PopularPage extends GetView<PopularController> {
     return LayoutBuilder(
       builder: (context, constraint) {
         return Obx(() {
-          bool showAction = Get.width <= 680;
+          final bool showAction = PlatformUtils.shouldShowAppBarActions(context);
 
           final sites = controller.sites;
 
