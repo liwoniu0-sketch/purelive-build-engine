@@ -83,10 +83,15 @@ async function handleRequest(request, ctx) {
     return handleProxy(request, target);
   }
 
-  // 4. /api/version - 边缘极速直出最新版本元数据 (0ms 延迟)
+  // 4. /api/version - 边缘极速直出最新版本元数据 (0ms 纯内存秒级直出)
   if (pathname === '/api/version') {
-    const rawVersionUrl = `https://raw.githubusercontent.com/${DEFAULT_OWNER}/${DEFAULT_REPO}/master/assets/version.json`;
-    return handleProxy(request, rawVersionUrl, true, FALLBACK_VERSION);
+    return new Response(JSON.stringify(FALLBACK_VERSION, null, 2), {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+      }
+    });
   }
 
   // 5. /api/releases - 边缘极速直出全部历史发布记录
