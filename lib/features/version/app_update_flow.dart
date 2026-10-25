@@ -23,29 +23,8 @@ Future<bool> requestStorageInstallPermission() async {
 }
 
 final List<String> mirrors = [
-  // 🌟 Cloudflare 专属极速加速源（首选）
+  // 🌟 Cloudflare 专属极速加速源（自主可控，直连免翻墙首选）
   'https://gh.lz1861.ccwu.cc/',
-
-  // 🟢 asset=206: resumable, best for large files
-  'https://cdn.gh-proxy.org/',
-  'https://edgeone.gh-proxy.org/',
-  'https://hk.gh-proxy.org/',
-  'https://gh.noki.eu.org/',
-  'https://gh-proxy.com/',
-  'https://slink.ltd/',
-  'https://gh.catmak.name/',
-  'https://proxy.gitwarp.top/',
-  'https://github.ednovas.xyz/',
-  'https://ghproxy.monkeyray.net/',
-  'https://fastgit.cc/',
-  'https://ghfile.geekertao.top/',
-
-  // 🟠 asset=200: works, but no resume
-  'https://gh-proxy.org/',
-  'https://ghproxy.net/',
-  'https://wget.la/',
-  'https://git.yylx.win/',
-  'https://g.blfrp.cn/',
 ];
 
 Future<void>? _activeDownloadDialog;
@@ -71,13 +50,10 @@ List<String> getMirrorUrls(String apkUrl, {bool githubOriginOnly = false}) {
   if (githubOriginOnly) return [rawGithub];
 
   final result = <String>[
-    // 1. 🌟 Cloudflare 专属极速加速源（国内免翻墙首选）
+    // 1. 🌟 Cloudflare 专属极速加速源（自主可控，国内免翻墙首选）
     'https://gh.lz1861.ccwu.cc/$rawGithub',
     // 2. 🌐 GitHub 官方源直链（海外/代理直连双保险）
     rawGithub,
-    // 3. 🚀 国内高带宽备用镜像源
-    'https://ghproxy.net/$rawGithub',
-    for (final m in mirrors) '$m$rawGithub',
   ];
   return result.toSet().toList(growable: false);
 }

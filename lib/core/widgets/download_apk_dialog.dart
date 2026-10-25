@@ -39,6 +39,20 @@ class DownloadedFileOpenResult {
   final String message;
 }
 
+class _RaceWinner {
+  final Response<ResponseBody> response;
+  final String label;
+  final String url;
+  final CancelToken cancelToken;
+
+  _RaceWinner({
+    required this.response,
+    required this.label,
+    required this.url,
+    required this.cancelToken,
+  });
+}
+
 String safeDownloadFileName(String url, {String? suggestedName}) {
   var candidate = suggestedName?.trim() ?? '';
 
@@ -182,43 +196,26 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
   File? _partialFile;
   File? _completedFile;
 
-  List<Map<String, String>> _activeCandidateSources = [];
-  int _currentSourceIndex = 0;
+  bool _useDomesticRace = true;
 
   void _switchToOfficialSource() {
-    final pureGithub = GitHubMirror.extractPureGithubUrl(widget.apkUrl);
-    final officialUrl = pureGithub.isNotEmpty ? pureGithub : widget.apkUrl;
+    _useDomesticRace = false;
     if (mounted) {
       setState(() {
         _currentSourceLabel = '🌐 Git 官方源 (需VPN)';
       });
     }
-    _activeCandidateSources.insert(_currentSourceIndex + 1, {
-      'label': '🌐 Git 官方源 (需VPN)',
-      'url': officialUrl,
-    });
     _currentSourceCancelToken?.cancel('switch_to_official');
   }
 
-  void _switchToCfSource() {
-    final pureGithub = GitHubMirror.extractPureGithubUrl(widget.apkUrl);
-    final cfUrl = GitHubMirror.speedUpUrl(widget.apkUrl);
+  void _switchToDomesticSource() {
+    _useDomesticRace = true;
     if (mounted) {
       setState(() {
-        _currentSourceLabel = '⚡ CF 代理源 (国内免翻墙)';
+        _currentSourceLabel = '⚡ 腾讯云/国内极速源 (免翻墙)';
       });
     }
-    _activeCandidateSources.insert(_currentSourceIndex + 1, {
-      'label': '⚡ CF 代理源 (国内免翻墙)',
-      'url': cfUrl,
-    });
-    if (pureGithub.contains('github.com/')) {
-      _activeCandidateSources.insert(_currentSourceIndex + 2, {
-        'label': '🚀 国内高速源 A',
-        'url': 'https://gh-proxy.com/$pureGithub',
-      });
-    }
-    _currentSourceCancelToken?.cancel('switch_to_cf');
+    _currentSourceCancelToken?.cancel('switch_to_domestic');
   }
 
   @override
@@ -226,12 +223,15 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
     super.initState();
 
     final initialUrl = widget.apkUrl.trim();
-    final bool isUserExplicitCf = initialUrl.contains('gh.lz1861.ccwu.cc') ||
-        initialUrl.contains('proxy') ||
-        initialUrl.contains('mirror') ||
-        initialUrl.contains('cdn');
+    final bool isUserExplicitOfficial = initialUrl.contains('github.com') &&
+        !initialUrl.contains('proxy') &&
+        !initialUrl.contains('mirror') &&
+        !initialUrl.contains('cdn') &&
+        !initialUrl.contains('gh.lz1861.ccwu.cc') &&
+        !initialUrl.contains('edgeone');
 
-    _currentSourceLabel = isUserExplicitCf ? '⚡ CF 代理源 (国内免翻墙)' : '🌐 Git 官方源 (需VPN)';
+    _useDomesticRace = !isUserExplicitOfficial;
+    _currentSourceLabel = _useDomesticRace ? '⚡ 腾讯云/国内极速源 (免翻墙)' : '🌐 Git 官方源 (需VPN)';
 
     _resolvedFileName = safeDownloadFileName(widget.apkUrl, suggestedName: widget.fileName);
 
@@ -320,90 +320,140 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
     final String initialUrl = url.trim();
     final String pureGithub = GitHubMirror.extractPureGithubUrl(initialUrl);
 
-    // 关键判定：用户是否显式选择了 CF 代理源
-    // 只要 URL 包含代理特征（gh.lz1861.ccwu.cc、proxy、mirror、cdn），无条件视为用户选择了 CF 代理源！
-    final bool isUserExplicitCf = initialUrl.contains('gh.lz1861.ccwu.cc') ||
-        initialUrl.contains('proxy') ||
-        initialUrl.contains('mirror') ||
-        initialUrl.contains('cdn');
-
-    final List<Map<String, String>> candidateSources = [];
-    if (isUserExplicitCf) {
-      // 100% 锁定用户所点击的 CF 代理直链为第 1 优先级
-      candidateSources.add({
-        'label': '⚡ CF 代理源 (国内免翻墙)',
-        'url': initialUrl,
-      });
-      // 备选源仅限免翻墙国内高速镜像，严禁加入需要翻墙的 GitHub 官方源！
-      if (pureGithub.contains('github.com/')) {
-        candidateSources.add({
-          'label': '🚀 国内高速源 A',
-          'url': 'https://gh-proxy.com/$pureGithub',
-        });
-        candidateSources.add({
-          'label': '🚀 腾讯 Edge 节点',
-          'url': 'https://edgeone.gh-proxy.org/$pureGithub',
-        });
-        candidateSources.add({
-          'label': '🚀 国内备用源 B',
-          'url': 'https://cdn.gh-proxy.org/$pureGithub',
-        });
-      }
-    } else {
-      // 用户显式点击了 Git 官方源
-      final officialUrl = pureGithub.isNotEmpty ? pureGithub : initialUrl;
-      candidateSources.add({
-        'label': '🌐 Git 官方源 (需VPN)',
-        'url': officialUrl,
-      });
-    }
-
-    _activeCandidateSources = candidateSources;
+    // 最大自愈轮数（每次网络断流或切换时进入下一轮，断点续传）
+    const int maxRounds = 10;
     dynamic lastError;
-    _currentSourceIndex = 0;
 
-    while (_currentSourceIndex < _activeCandidateSources.length) {
+    for (int round = 1; round <= maxRounds; round++) {
       if (cancelToken.isCancelled) return;
-      final source = _activeCandidateSources[_currentSourceIndex];
-      final targetUrl = source['url']!;
-      final label = source['label']!;
 
-      if (mounted) {
-        setState(() {
-          _currentSourceLabel = label;
-        });
+      final targetFile = File(destinationPath);
+      int existingBytes = 0;
+      if (await targetFile.exists()) {
+        existingBytes = await targetFile.length();
       }
 
-      final sourceCancel = CancelToken();
-      _currentSourceCancelToken = sourceCancel;
+      final roundCancel = CancelToken();
+      _currentSourceCancelToken = roundCancel;
 
       void onGlobalCancel() {
-        if (!sourceCancel.isCancelled) sourceCancel.cancel('global_cancelled');
+        if (!roundCancel.isCancelled) roundCancel.cancel('global_cancelled');
       }
       cancelToken.whenCancel.then((_) => onGlobalCancel());
 
       try {
-        log('Attempting download from candidate ${_currentSourceIndex + 1}/${_activeCandidateSources.length} ($label): $targetUrl', name: 'DownloadApkDialog');
+        _RaceWinner? winner;
 
-        final targetFile = File(destinationPath);
-        int existingBytes = 0;
-        if (await targetFile.exists()) {
-          existingBytes = await targetFile.length();
+        if (!_useDomesticRace) {
+          // 单轨：Git 官方源
+          final officialUrl = pureGithub.isNotEmpty ? pureGithub : initialUrl;
+          if (mounted) {
+            setState(() {
+              _currentSourceLabel = '🌐 Git 官方源 (需VPN)';
+            });
+          }
+          final resp = await _dio.get<ResponseBody>(
+            officialUrl,
+            options: Options(
+              responseType: ResponseType.stream,
+              headers: {
+                if (existingBytes > 0) 'Range': 'bytes=$existingBytes-',
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 14) PureLivePro',
+              },
+              receiveTimeout: const Duration(minutes: 15),
+            ),
+            cancelToken: roundCancel,
+          );
+          winner = _RaceWinner(
+            response: resp,
+            label: '🌐 Git 官方源 (需VPN)',
+            url: officialUrl,
+            cancelToken: roundCancel,
+          );
+        } else {
+          // 多轨并发赛马：国内顶级节点抢占引擎（Fastest-Wins Race）
+          final nodes = GitHubMirror.buildDomesticCandidateNodes(initialUrl);
+          if (mounted) {
+            setState(() {
+              _currentSourceLabel = '⚡ 国内极速并发赛马测速中...';
+            });
+          }
+
+          final completer = Completer<_RaceWinner>();
+          final List<CancelToken> probeCancels = [];
+
+          for (final node in nodes) {
+            final nodeLabel = node['name'] ?? '国内极速节点';
+            final nodeUrl = node['url']!;
+            final nodeCancel = CancelToken();
+            probeCancels.add(nodeCancel);
+
+            () async {
+              try {
+                final resp = await _dio.get<ResponseBody>(
+                  nodeUrl,
+                  options: Options(
+                    responseType: ResponseType.stream,
+                    headers: {
+                      if (existingBytes > 0) 'Range': 'bytes=$existingBytes-',
+                      'User-Agent': 'Mozilla/5.0 (Linux; Android 14) PureLivePro',
+                    },
+                    receiveTimeout: const Duration(minutes: 15),
+                  ),
+                  cancelToken: nodeCancel,
+                );
+
+                final code = resp.statusCode ?? 200;
+                if ((code == 200 || code == 206) && resp.data?.stream != null) {
+                  if (!completer.isCompleted && !roundCancel.isCancelled) {
+                    completer.complete(_RaceWinner(
+                      response: resp,
+                      label: nodeLabel,
+                      url: nodeUrl,
+                      cancelToken: nodeCancel,
+                    ));
+                  } else {
+                    if (!nodeCancel.isCancelled) nodeCancel.cancel('lost_race');
+                  }
+                }
+              } catch (_) {
+                // 探测失败或超时，自动忽略
+              }
+            }();
+          }
+
+          // 等待最先胜出的节点（最长等待 10 秒）
+          winner = await completer.future.timeout(
+            const Duration(seconds: 10),
+            onTimeout: () {
+              throw TimeoutException('国内所有测速节点均响应超时');
+            },
+          );
+
+          // 取消其余输掉的探测请求，释放连接，绝对不误伤胜出者
+          for (final c in probeCancels) {
+            if (c != winner.cancelToken && !c.isCancelled) {
+              c.cancel('lost_race');
+            }
+          }
+
+          roundCancel.whenCancel.then((_) {
+            if (!winner!.cancelToken.isCancelled) {
+              winner.cancelToken.cancel();
+            }
+          });
         }
 
-        final response = await _dio.get<ResponseBody>(
-          targetUrl,
-          options: Options(
-            responseType: ResponseType.stream,
-            headers: {
-              if (existingBytes > 0) 'Range': 'bytes=$existingBytes-',
-              'User-Agent': 'Mozilla/5.0 (Linux; Android 14) PureLivePro',
-            },
-            receiveTimeout: const Duration(minutes: 15),
-          ),
-          cancelToken: sourceCancel,
-        );
+        if (winner == null || cancelToken.isCancelled) return;
 
+        if (mounted) {
+          setState(() {
+            _currentSourceLabel = winner!.label;
+          });
+        }
+
+        // 开始流式接收与断点写入
+        final response = winner.response;
         final statusCode = response.statusCode ?? 200;
         final bool isRange = statusCode == 206;
         final int contentLength = int.tryParse(response.headers.value('content-length') ?? '') ?? 0;
@@ -417,36 +467,26 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         int lastSecondBytes = receivedBytes;
         DateTime lastSpeedTime = DateTime.now();
         DateTime lastDataReceivedTime = DateTime.now();
-        DateTime downloadStartTime = DateTime.now();
         double currentSpeedBytesPerSec = 0.0;
 
         Timer? stallWatchdog;
         stallWatchdog = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
-          if (cancelToken.isCancelled || sourceCancel.isCancelled) {
+          if (cancelToken.isCancelled || roundCancel.isCancelled) {
             timer.cancel();
             return;
           }
           final checkNow = DateTime.now();
-          if (checkNow.difference(lastDataReceivedTime).inMilliseconds >= 3000) {
-            if (_currentSourceIndex + 1 < _activeCandidateSources.length) {
-              log('Watchdog: Download stalled for 3.0s with no chunks from $label, auto-switching...', name: 'DownloadApkDialog');
-              timer.cancel();
-              sourceCancel.cancel('auto_switch_stalled');
-            }
-          }
-          final totalSec = checkNow.difference(downloadStartTime).inSeconds;
-          if (totalSec >= 3 && currentSpeedBytesPerSec < 450 * 1024 && totalBytes > 10 * 1024 * 1024) {
-            if (receivedBytes < totalBytes * 0.85 && _currentSourceIndex + 1 < _activeCandidateSources.length) {
-              log('Watchdog: Speed too low (${(currentSpeedBytesPerSec / 1024).toStringAsFixed(0)} KB/s), auto-switching...', name: 'DownloadApkDialog');
-              timer.cancel();
-              sourceCancel.cancel('auto_switch_low_speed');
-            }
+          // 8 秒完全没有数据 chunk 到达时触发自愈重试
+          if (checkNow.difference(lastDataReceivedTime).inMilliseconds >= 8000) {
+            log('Watchdog: Download stalled for 8.0s, triggering resume...', name: 'DownloadApkDialog');
+            timer.cancel();
+            roundCancel.cancel('auto_retry_stalled');
           }
         });
 
         try {
           await for (final chunk in response.data!.stream) {
-            if (cancelToken.isCancelled || sourceCancel.isCancelled) {
+            if (cancelToken.isCancelled || roundCancel.isCancelled) {
               break;
             }
             sink.add(chunk);
@@ -455,7 +495,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
             final now = DateTime.now();
             final elapsedMs = now.difference(lastSpeedTime).inMilliseconds;
-            if (elapsedMs >= 600) {
+            if (elapsedMs >= 500) {
               final diffBytes = receivedBytes - lastSecondBytes;
               currentSpeedBytesPerSec = (diffBytes / (elapsedMs / 1000.0));
               final speedMb = currentSpeedBytesPerSec / (1024 * 1024);
@@ -469,8 +509,6 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
               lastSpeedTime = now;
 
               onProgress(receivedBytes, totalBytes);
-            } else {
-              onProgress(receivedBytes, totalBytes);
             }
           }
         } finally {
@@ -481,24 +519,24 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
 
         if (cancelToken.isCancelled) return;
 
-        if (sourceCancel.isCancelled) {
-          _currentSourceIndex++;
+        // 如果用户手动热切源，继续下一轮
+        if (roundCancel.isCancelled && roundCancel.cancelError?.message != 'auto_retry_stalled') {
           continue;
         }
 
         if (totalBytes > 0 && receivedBytes >= totalBytes) {
-          log('Download succeeded via $label ($receivedBytes bytes)', name: 'DownloadApkDialog');
+          log('Download succeeded via ${winner.label} ($receivedBytes bytes)', name: 'DownloadApkDialog');
           return;
         } else if (totalBytes <= 0 && receivedBytes > 10 * 1024 * 1024) {
-          log('Download completed with unknown total via $label ($receivedBytes bytes)', name: 'DownloadApkDialog');
+          log('Download completed with unknown total via ${winner.label} ($receivedBytes bytes)', name: 'DownloadApkDialog');
           return;
         }
       } catch (e) {
         lastError = e;
         if (cancelToken.isCancelled) return;
-        log('Candidate $label failed with $e, switching to next...', name: 'DownloadApkDialog');
+        log('Round $round failed with $e', name: 'DownloadApkDialog');
+        await Future.delayed(const Duration(milliseconds: 500));
       }
-      _currentSourceIndex++;
     }
 
     if (lastError != null) {
@@ -875,10 +913,10 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         children: [
           TextButton.icon(
             key: const ValueKey('download-switch-source'),
-            onPressed: isCurrentlyOfficial ? _switchToCfSource : _switchToOfficialSource,
+            onPressed: isCurrentlyOfficial ? _switchToDomesticSource : _switchToOfficialSource,
             icon: Icon(isCurrentlyOfficial ? Icons.bolt_rounded : Icons.public_rounded, size: 16),
             label: Text(
-              isCurrentlyOfficial ? '⚡ 切 CF 代理源' : '🌐 切 Git 官方源',
+              isCurrentlyOfficial ? '⚡ 切国内极速源' : '🌐 切 Git 官方源',
               style: AppTextStyles.t12.copyWith(fontWeight: FontWeight.w600),
             ),
           ),

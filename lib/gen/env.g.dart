@@ -14,13 +14,13 @@ class AppConfig {
 }
 
 class AppConfigData {
-  final String pureliveUpdateOwner = 'liwoniu-luzi';
+  final String pureliveUpdateOwner = 'liwoniu0-sketch';
 
-  final String pureliveUpdateRepository = 'lzvideo';
+  final String pureliveUpdateRepository = 'purelive-build-engine';
 
-  final String pureliveNativeOwner = 'liwoniu-luzi';
+  final String pureliveNativeOwner = 'liwoniu0-sketch';
 
-  final String pureliveNativeRepository = 'lzvideo';
+  final String pureliveNativeRepository = 'purelive-build-engine';
 
   final String pureliveTvRepository = 'pure_live_TV';
 }

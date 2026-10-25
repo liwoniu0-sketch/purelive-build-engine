@@ -187,7 +187,7 @@ class VersionUtil {
     final rawBaseDownloadUrl = 'https://github.com/$repoOwner/$repoName/releases/download/$tag';
     final baseDownloadUrl = githubOriginOnly
         ? rawBaseDownloadUrl
-        : 'https://gh.lz1861.ccwu.cc/$rawBaseDownloadUrl';
+        : 'https://edgeone.gh-proxy.org/$rawBaseDownloadUrl';
 
     return [
       {

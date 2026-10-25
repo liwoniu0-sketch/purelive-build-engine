@@ -59,7 +59,7 @@ class VersionPage extends GetView<VersionController> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      '国内网络请直接点击【⚡ CF 代理源】下载，满速免翻墙；已开启科学上网请点击【🌐 Git 官方源】。',
+                      '国内网络请直接点击【⚡ 国内极速源】下载，腾讯云/专线并发秒级起速；已开启科学上网请点击【🌐 Git 官方源】。',
                       style: AppTextStyles.t12.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w600,
@@ -365,12 +365,12 @@ class VersionPage extends GetView<VersionController> {
               ),
             ),
             const SizedBox(width: 10),
-            // ⚡ CF 代理源 (免翻墙极速)
+            // ⚡ 国内极速源 (腾讯云/专线并发赛马)
             Expanded(
               child: Tooltip(
-                message: '通过 Cloudflare 边缘代理加速下载（国内免翻墙）\n长按可复制链接',
+                message: '接入腾讯云 EdgeOne 与国内专线并发赛马加速（免翻墙满速）\n长按可复制链接',
                 child: FilledButton.icon(
-                  key: ValueKey('version-source-$title-cf'),
+                  key: ValueKey('version-source-$title-domestic'),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(0, 44),
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -385,7 +385,7 @@ class VersionPage extends GetView<VersionController> {
                   },
                   icon: const Icon(Remix.flashlight_fill, size: 16),
                   label: const Text(
-                    '⚡ CF 代理源',
+                    '⚡ 国内极速源',
                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

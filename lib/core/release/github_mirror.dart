@@ -20,42 +20,48 @@ class GitHubMirror {
 
   static const List<String> _rawPrefixes = [
     'https://gh.lz1861.ccwu.cc/',
-    'https://cdn.gh-proxy.org/',
-    'https://edgeone.gh-proxy.org/',
-    'https://hk.gh-proxy.org/',
-    'https://gh.noki.eu.org/',
-    'https://gh-proxy.com/',
-    'https://slink.ltd/',
-
-    'https://ghproxy.link/',
-    'https://gh-proxy.net/',
-    'https://gitproxy.click/',
-    'https://v6.gh-proxy.org/',
-
-    'https://ghproxy.net/',
-    'https://wget.la/',
-    'https://gh.catmak.name/',
-    'https://g.blfrp.cn/',
   ];
 
   List<String> mirrors(String filePath) {
     final raw = rawUrl(filePath);
 
     return List.unmodifiable({
+      'https://gh.lz1861.ccwu.cc/$raw',
       raw,
-
-      for (final prefix in _rawPrefixes) '$prefix$raw',
-
-      'https://raw.kkgithub.com/$owner/$repo/$branch/$filePath',
-
-      // CDN
+      // 静态资源公共 CDN 备用
       jsdelivr(filePath),
       jsdelivrFastly(filePath),
     });
   }
 
+  static const List<Map<String, String>> domesticMirrorNodes = [
+    {
+      'name': '⚡ 腾讯云 EdgeOne',
+      'prefix': 'https://edgeone.gh-proxy.org/',
+    },
+    {
+      'name': '🚀 国内高速专线',
+      'prefix': 'https://gh-proxy.com/',
+    },
+    {
+      'name': '🌐 国内 CDN 镜像',
+      'prefix': 'https://cdn.gh-proxy.org/',
+    },
+    {
+      'name': '⚡ CF 备用代理',
+      'prefix': 'https://gh.lz1861.ccwu.cc/',
+    },
+  ];
+
+  static String fixRepoUrl(String url) {
+    if (url.contains('liwoniu-luzi/lzvideo')) {
+      return url.replaceAll('liwoniu-luzi/lzvideo', 'liwoniu0-sketch/purelive-build-engine');
+    }
+    return url;
+  }
+
   static String extractPureGithubUrl(String url) {
-    final clean = url.trim();
+    final clean = fixRepoUrl(url.trim());
     final index = clean.indexOf('https://github.com/');
     if (index >= 0) {
       return clean.substring(index);
@@ -72,17 +78,25 @@ class GitHubMirror {
   }
 
   static String speedUpUrl(String originalUrl) {
-    final trimmed = originalUrl.trim();
-    if (trimmed.isEmpty) return trimmed;
-    if (trimmed.startsWith('https://gh.lz1861.ccwu.cc/')) {
-      final sub = trimmed.substring('https://gh.lz1861.ccwu.cc/'.length);
-      final pure = extractPureGithubUrl(sub);
-      return 'https://gh.lz1861.ccwu.cc/$pure';
-    }
-    final pure = extractPureGithubUrl(trimmed);
+    final pure = extractPureGithubUrl(originalUrl);
     if (pure.contains('github.com/') || pure.contains('githubusercontent.com/')) {
-      return 'https://gh.lz1861.ccwu.cc/$pure';
+      return 'https://edgeone.gh-proxy.org/$pure';
     }
-    return trimmed;
+    return originalUrl;
+  }
+
+  static List<Map<String, String>> buildDomesticCandidateNodes(String originalUrl) {
+    final pure = extractPureGithubUrl(originalUrl);
+    if (!pure.contains('github.com/') && !pure.contains('githubusercontent.com/')) {
+      return [
+        {'name': '默认下载源', 'url': originalUrl}
+      ];
+    }
+    return domesticMirrorNodes.map((node) {
+      return {
+        'name': node['name']!,
+        'url': '${node['prefix']}$pure',
+      };
+    }).toList();
   }
 }
