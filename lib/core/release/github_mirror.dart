@@ -36,20 +36,20 @@ class GitHubMirror {
 
   static const List<Map<String, String>> domesticMirrorNodes = [
     {
-      'name': '⚡ 腾讯云 EdgeOne',
+      'name': '⚡ CF 专属加速',
+      'prefix': 'https://gh.lz1861.ccwu.cc/',
+    },
+    {
+      'name': '🚀 腾讯云 EdgeOne',
       'prefix': 'https://edgeone.gh-proxy.org/',
     },
     {
-      'name': '🚀 国内高速专线',
+      'name': '🌐 国内高速专线',
       'prefix': 'https://gh-proxy.com/',
     },
     {
-      'name': '🌐 国内 CDN 镜像',
+      'name': '⚡ 国内 CDN 镜像',
       'prefix': 'https://cdn.gh-proxy.org/',
-    },
-    {
-      'name': '⚡ CF 备用代理',
-      'prefix': 'https://gh.lz1861.ccwu.cc/',
     },
   ];
 
@@ -80,7 +80,7 @@ class GitHubMirror {
   static String speedUpUrl(String originalUrl) {
     final pure = extractPureGithubUrl(originalUrl);
     if (pure.contains('github.com/') || pure.contains('githubusercontent.com/')) {
-      return 'https://edgeone.gh-proxy.org/$pure';
+      return 'https://gh.lz1861.ccwu.cc/$pure';
     }
     return originalUrl;
   }

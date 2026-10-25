@@ -212,7 +212,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
     _useDomesticRace = true;
     if (mounted) {
       setState(() {
-        _currentSourceLabel = '⚡ 腾讯云/国内极速源 (免翻墙)';
+        _currentSourceLabel = '⚡ CF/国内极速源 (免翻墙)';
       });
     }
     _currentSourceCancelToken?.cancel('switch_to_domestic');
@@ -231,7 +231,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
         !initialUrl.contains('edgeone');
 
     _useDomesticRace = !isUserExplicitOfficial;
-    _currentSourceLabel = _useDomesticRace ? '⚡ 腾讯云/国内极速源 (免翻墙)' : '🌐 Git 官方源 (需VPN)';
+    _currentSourceLabel = _useDomesticRace ? '⚡ CF/国内极速源 (免翻墙)' : '🌐 Git 官方源 (需VPN)';
 
     _resolvedFileName = safeDownloadFileName(widget.apkUrl, suggestedName: widget.fileName);
 
@@ -375,7 +375,7 @@ class _DownloadApkDialogState extends State<DownloadApkDialog> {
           final nodes = GitHubMirror.buildDomesticCandidateNodes(initialUrl);
           if (mounted) {
             setState(() {
-              _currentSourceLabel = '⚡ 国内极速并发赛马测速中...';
+              _currentSourceLabel = '⚡ CF/国内极速并发赛马中...';
             });
           }
 
